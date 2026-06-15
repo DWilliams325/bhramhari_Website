@@ -8,94 +8,31 @@ function showPage(id) {
 }
 
 function selectService(svc) {
-  document.querySelectorAll('.svc-pill').forEach(p => p.classList.remove('selected'));
-  const el = document.getElementById('pill-' + svc);
-  if (el) el.classList.add('selected');
+  switchCal(svc);
 }
 
-let calYear = new Date().getFullYear(), calMonth = new Date().getMonth();
-let selectedDate = null, selectedSlot = null;
-const takenSlots = {'9:00 AM':true, '2:00 PM':true};
-const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const calLinks = {
+  insurance:  'damian325/insurance-consultation',
+  retirement: 'damian325/retirement-planning',
+  estate:     'damian325/estate-planning',
+};
+const calInitialized = {};
 
-function renderCalendar() {
-  const label = document.getElementById('cal-month-label');
-  if (!label) return;
-  label.textContent = monthNames[calMonth] + ' ' + calYear;
-  const grid = document.getElementById('cal-grid');
-  grid.innerHTML = '';
-  ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(d => {
-    const dn = document.createElement('div');
-    dn.className = 'cal-day-name'; dn.textContent = d; grid.appendChild(dn);
-  });
-  const first = new Date(calYear, calMonth, 1).getDay();
-  const days = new Date(calYear, calMonth + 1, 0).getDate();
-  const today = new Date();
-  for (let i = 0; i < first; i++) { const e = document.createElement('div'); e.className = 'cal-day empty'; grid.appendChild(e); }
-  for (let d = 1; d <= days; d++) {
-    const el = document.createElement('div');
-    el.className = 'cal-day'; el.textContent = d;
-    const isPast = new Date(calYear, calMonth, d) < new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const isToday = d === today.getDate() && calMonth === today.getMonth() && calYear === today.getFullYear();
-    if (isPast) el.classList.add('past');
-    if (isToday) el.classList.add('today');
-    if (selectedDate && selectedDate.d === d && selectedDate.m === calMonth && selectedDate.y === calYear) el.classList.add('selected');
-    if (!isPast) el.onclick = () => pickDate(d);
-    grid.appendChild(el);
+function switchCal(service) {
+  document.querySelectorAll('.svc-pill').forEach(p => p.classList.remove('selected'));
+  const pill = document.getElementById('pill-' + service);
+  if (pill) pill.classList.add('selected');
+  document.querySelectorAll('.cal-embed-wrap').forEach(el => el.style.display = 'none');
+  const embed = document.getElementById('cal-' + service);
+  if (embed) embed.style.display = 'block';
+
+  if (!calInitialized[service]) {
+    calInitialized[service] = true;
+    Cal("inline", {
+      elementOrSelector: '#cal-' + service + '-inline',
+      calLink: calLinks[service],
+    });
   }
-}
-
-function pickDate(d) {
-  selectedDate = { d, m: calMonth, y: calYear };
-  selectedSlot = null;
-  renderCalendar(); renderSlots();
-}
-
-function renderSlots() {
-  const grid = document.getElementById('slots-grid');
-  const msg = document.getElementById('no-date-msg');
-  if (!selectedDate) { grid.innerHTML = ''; msg.style.display = 'block'; return; }
-  msg.style.display = 'none';
-  const times = ['9:00 AM','10:00 AM','11:00 AM','1:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM'];
-  grid.innerHTML = '';
-  times.forEach(t => {
-    const el = document.createElement('div');
-    el.className = 'slot'; el.textContent = t;
-    if (takenSlots[t]) { el.classList.add('taken'); }
-    else {
-      if (selectedSlot === t) el.classList.add('selected');
-      el.onclick = () => { selectedSlot = t; renderSlots(); };
-    }
-    grid.appendChild(el);
-  });
-}
-
-function prevMonth() { calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; } renderCalendar(); }
-function nextMonth() { calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; } renderCalendar(); }
-
-function confirmBooking() {
-  const fname = document.getElementById('b-fname').value.trim();
-  const email = document.getElementById('b-email').value.trim();
-  const svc = document.querySelector('.svc-pill.selected');
-  if (!fname || !email) { alert('Please enter your name and email.'); return; }
-  if (!selectedDate) { alert('Please select a date.'); return; }
-  if (!selectedSlot) { alert('Please select a time slot.'); return; }
-  const svcName = svc ? svc.textContent.trim() : 'General Consultation';
-  const dateStr = monthNames[selectedDate.m] + ' ' + selectedDate.d + ', ' + selectedDate.y;
-  document.getElementById('booking-summary').innerHTML =
-    '<div class="detail-chip">📅 ' + dateStr + ' at ' + selectedSlot + '</div>' +
-    '<br><div class="detail-chip" style="margin-top:8px;">🗂️ ' + svcName + '</div>';
-  document.getElementById('booking-form').style.display = 'none';
-  document.getElementById('booking-success').style.display = 'block';
-}
-
-function resetBooking() {
-  document.getElementById('booking-form').style.display = 'block';
-  document.getElementById('booking-success').style.display = 'none';
-  selectedDate = null; selectedSlot = null;
-  ['b-fname','b-lname','b-email','b-phone','b-notes'].forEach(id => document.getElementById(id).value = '');
-  document.querySelectorAll('.svc-pill').forEach(p => p.classList.remove('selected'));
-  renderCalendar(); renderSlots();
 }
 
 let starRating = 0;
@@ -144,4 +81,16 @@ function signUpEmail() {
   document.getElementById('email-input').value = '';
 }
 
-document.addEventListener('DOMContentLoaded', () => { renderCalendar(); renderSlots(); });
+document.addEventListener('DOMContentLoaded', () => {
+  Cal("ui", {
+    styles: { branding: { brandColor: "#E8421A" } },
+    hideEventTypeDetails: false,
+    layout: "month_view"
+  });
+  // Init the default visible embed
+  calInitialized['insurance'] = true;
+  Cal("inline", {
+    elementOrSelector: "#cal-insurance-inline",
+    calLink: calLinks['insurance'],
+  });
+});
