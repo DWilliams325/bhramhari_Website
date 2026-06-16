@@ -16,23 +16,12 @@ const calLinks = {
   retirement: 'damian325/retirement-planning',
   estate:     'damian325/estate-planning',
 };
-const calInitialized = {};
 
 function switchCal(service) {
-  document.querySelectorAll('.svc-pill').forEach(p => p.classList.remove('selected'));
-  const pill = document.getElementById('pill-' + service);
-  if (pill) pill.classList.add('selected');
-  document.querySelectorAll('.cal-embed-wrap').forEach(el => el.style.display = 'none');
-  const embed = document.getElementById('cal-' + service);
-  if (embed) embed.style.display = 'block';
-
-  if (!calInitialized[service]) {
-    calInitialized[service] = true;
-    Cal("inline", {
-      elementOrSelector: '#cal-' + service + '-inline',
-      calLink: calLinks[service],
-    });
-  }
+  const sel = document.getElementById('svc-select');
+  if (sel) sel.value = service;
+  const btn = document.getElementById('booking-btn');
+  if (btn) btn.setAttribute('data-cal-link', calLinks[service]);
 }
 
 let starRating = 0;
@@ -86,11 +75,5 @@ document.addEventListener('DOMContentLoaded', () => {
     styles: { branding: { brandColor: "#E8421A" } },
     hideEventTypeDetails: false,
     layout: "month_view"
-  });
-  // Init the default visible embed
-  calInitialized['insurance'] = true;
-  Cal("inline", {
-    elementOrSelector: "#cal-insurance-inline",
-    calLink: calLinks['insurance'],
   });
 });

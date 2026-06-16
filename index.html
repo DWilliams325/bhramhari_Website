@@ -302,20 +302,20 @@
           <p>Select a service below and choose a time that works for you.</p>
         </div>
         <div class="booking-body">
-          <div class="svc-pills">
-            <div class="svc-pill selected" id="pill-insurance" onclick="switchCal('insurance')">🛡️ Insurance Consultation</div>
-            <div class="svc-pill" id="pill-retirement" onclick="switchCal('retirement')">🌅 Retirement Planning</div>
-            <div class="svc-pill" id="pill-estate" onclick="switchCal('estate')">🏛️ Estate Planning</div>
+          <div class="svc-select-wrap">
+            <label for="svc-select" class="svc-select-label">Select a service</label>
+            <select id="svc-select" class="svc-select" onchange="switchCal(this.value)">
+              <option value="insurance">🛡️ Insurance Consultation</option>
+              <option value="retirement">🌅 Retirement Planning</option>
+              <option value="estate">🏛️ Estate Planning</option>
+            </select>
           </div>
-          <div id="cal-insurance" class="cal-embed-wrap">
-            <div id="cal-insurance-inline" style="width:100%;height:650px;overflow:scroll;"></div>
-          </div>
-          <div id="cal-retirement" class="cal-embed-wrap" style="display:none;">
-            <div id="cal-retirement-inline" style="width:100%;height:650px;overflow:scroll;"></div>
-          </div>
-          <div id="cal-estate" class="cal-embed-wrap" style="display:none;">
-            <div id="cal-estate-inline" style="width:100%;height:650px;overflow:scroll;"></div>
-          </div>
+          <button id="booking-btn"
+            data-cal-link="damian325/insurance-consultation"
+            data-cal-config='{"layout":"month_view"}'
+            class="btn-fill booking-cta">
+            Schedule Appointment →
+          </button>
         </div>
       </div>
     </div>
