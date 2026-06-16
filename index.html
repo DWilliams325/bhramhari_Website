@@ -7,10 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="styles.css" />
-<script type="text/javascript">
-  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, [L, namespace, ar[2]])} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-  Cal("init", {origin:"https://app.cal.com"});
-</script>
 </head>
 <body>
 
@@ -452,24 +448,22 @@
         </div>
         <div class="booking-body">
           <div style="margin-bottom:28px;">
-            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray);margin-bottom:12px;">1. Select a Service</div>
-            <div class="svc-pills">
-              <button class="svc-pill" id="pill-estate" onclick="selectService('estate')">🏛️ Estate Planning</button>
-              <button class="svc-pill" id="pill-insurance" onclick="selectService('insurance')">🛡️ Insurance Consultation</button>
-              <button class="svc-pill" id="pill-retirement" onclick="selectService('retirement')">🌅 Retirement Planning</button>
-              <button class="svc-pill" id="pill-general" onclick="selectService('general')">💬 General Consultation</button>
-              <button class="svc-pill" id="pill-health" onclick="selectService('health')">🩺 Health Insurance</button>
-              <button class="svc-pill" id="pill-longterm" onclick="selectService('longterm')">🧓 Long-Term Care</button>
-              <button class="svc-pill" id="pill-disability" onclick="selectService('disability')">♿ Disability</button>
-              <button class="svc-pill" id="pill-travel" onclick="selectService('travel')">✈️ Travel Insurance</button>
-              <button class="svc-pill" id="pill-notary" onclick="selectService('notary')">🖋️ Notary</button>
-              <button class="svc-pill" id="pill-mortgage" onclick="selectService('mortgage')">🏠 Mortgage Protection</button>
-            </div>
+            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray);margin-bottom:12px;">Select a Service</div>
+            <select id="svc-select" style="width:100%;padding:12px 16px;font-size:16px;font-family:inherit;border:2px solid rgba(0,0,0,0.1);border-radius:8px;background:#fff;color:var(--navy);cursor:pointer;appearance:auto;outline:none;">
+              <option value="">— Choose a service —</option>
+              <option value="estate">🏛️ Estate Planning</option>
+              <option value="insurance">🛡️ Insurance Consultation</option>
+              <option value="retirement">🌅 Retirement Planning</option>
+              <option value="general">💬 General Consultation</option>
+              <option value="health">🩺 Health Insurance</option>
+              <option value="longterm">🧓 Long-Term Care</option>
+              <option value="disability">♿ Disability</option>
+              <option value="travel">✈️ Travel Insurance</option>
+              <option value="notary">🖋️ Notary</option>
+              <option value="mortgage">🏠 Mortgage Protection</option>
+            </select>
           </div>
-          <button id="booking-btn"
-            data-cal-link="damian325/insurance-consultation"
-            data-cal-config='{"layout":"month_view"}'
-            class="btn-fill booking-cta">
+          <button id="booking-btn" onclick="openBooking()" class="btn-fill booking-cta">
             Schedule Appointment →
           </button>
         </div>

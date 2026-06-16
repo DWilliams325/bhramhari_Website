@@ -7,21 +7,26 @@ function showPage(id) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function selectService(svc) {
-  switchCal(svc);
-}
-
 const calLinks = {
-  insurance:  'damian325/insurance-consultation',
-  retirement: 'damian325/retirement-planning',
-  estate:     'damian325/estate-planning',
+  estate:     'https://cal.com/damian325/estate-planning',
+  insurance:  'https://cal.com/damian325/insurance-consultation',
+  retirement: 'https://cal.com/damian325/retirement-planning',
+  general:    'https://cal.com/damian325/general-consultation',
+  health:     'https://cal.com/damian325/health-insurance',
+  longterm:   'https://cal.com/damian325/long-term-care',
+  disability: 'https://cal.com/damian325/disability',
+  travel:     'https://cal.com/damian325/travel-insurance',
+  notary:     'https://cal.com/damian325/notary',
+  mortgage:   'https://cal.com/damian325/mortgage-protection',
 };
 
-function switchCal(service) {
+function openBooking() {
   const sel = document.getElementById('svc-select');
-  if (sel) sel.value = service;
-  const btn = document.getElementById('booking-btn');
-  if (btn) btn.setAttribute('data-cal-link', calLinks[service]);
+  if (!sel || !sel.value) {
+    alert('Please select a service first.');
+    return;
+  }
+  window.open(calLinks[sel.value], '_blank');
 }
 
 let starRating = 0;
@@ -70,10 +75,3 @@ function signUpEmail() {
   document.getElementById('email-input').value = '';
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  Cal("ui", {
-    styles: { branding: { brandColor: "#E8421A" } },
-    hideEventTypeDetails: false,
-    layout: "month_view"
-  });
-});
