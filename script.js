@@ -8,16 +8,15 @@ function showPage(id) {
 }
 
 const calLinks = {
-  estate:     'https://cal.com/damian325/estate-planning',
-  insurance:  'https://cal.com/damian325/insurance-consultation',
-  retirement: 'https://cal.com/damian325/retirement-planning',
-  general:    'https://cal.com/damian325/general-consultation',
-  health:     'https://cal.com/damian325/health-insurance',
-  longterm:   'https://cal.com/damian325/long-term-care',
-  disability: 'https://cal.com/damian325/disability',
-  travel:     'https://cal.com/damian325/travel-insurance',
-  notary:     'https://cal.com/damian325/notary',
-  mortgage:   'https://cal.com/damian325/mortgage-protection',
+  estate:     'https://cal.com/bhramhari/estate-planning',
+  insurance:  'https://cal.com/bhramhari/insurance-consultation',
+  retirement: 'https://cal.com/bhramhari/retirement-planning',
+  health:     'https://cal.com/bhramhari/general-health-insurance',
+  longterm:   'https://cal.com/bhramhari/long-term-care',
+  disability: 'https://cal.com/bhramhari/disability-coverage',
+  travel:     'https://cal.com/bhramhari/travel-insurance',
+  notary:     'https://cal.com/bhramhari/notary-services',
+  mortgage:   'https://cal.com/bhramhari/mortgage-protection',
 };
 
 function openBooking() {
