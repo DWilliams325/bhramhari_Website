@@ -67,6 +67,293 @@ function sendContact() {
   document.getElementById('cf-msg').value = '';
 }
 
+const galleryStorageKey = 'bhramhariGalleryItems';
+const useBackendGalleryStorage = false; // flip to true when backend storage is available
+let pendingGalleryFiles = [];
+
+function escapeHtml(str) {
+  return String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function getStoredGalleryItems() {
+  const json = localStorage.getItem(galleryStorageKey);
+  if (!json) return [];
+  try { return JSON.parse(json); } catch (e) { return []; }
+}
+
+function saveGalleryItems(items) {
+  localStorage.setItem(galleryStorageKey, JSON.stringify(items));
+}
+
+async function loadGalleryItems() {
+  if (useBackendGalleryStorage) {
+    // TODO: replace with your backend GET endpoint when ready
+    return getStoredGalleryItems();
+  }
+  return getStoredGalleryItems();
+}
+
+async function storeGalleryItems(items) {
+  if (useBackendGalleryStorage) {
+    // TODO: replace with your backend POST/PUT endpoint when ready
+    return saveGalleryItems(items);
+  }
+  return saveGalleryItems(items);
+}
+
+function createGalleryCard(item) {
+  const card = document.createElement('div');
+  card.className = 'gallery-card';
+  card.style.position = 'relative';
+  const locked = Boolean(item.locked);
+  card.innerHTML = `
+    <div class="gallery-card-actions">
+      <button class="gallery-card-save" type="button" data-id="${item.id}">Save</button>
+      <button class="gallery-card-edit" type="button" data-id="${item.id}">Edit</button>
+      <button class="gallery-card-remove" type="button" data-id="${item.id}">Remove</button>
+    </div>
+    <img src="${item.src}" alt="${escapeHtml(item.title) || 'Bhramhari booth photo'}" />
+    <div class="gallery-card-meta">
+      <div class="gallery-card-view ${locked ? '' : 'hidden'}">
+        <div class="gallery-card-view-row">
+          <span class="gallery-card-view-label">Event Name</span>
+          <span class="gallery-card-view-value">${escapeHtml(item.eventName || 'Bhramhari Event')}</span>
+        </div>
+        <div class="gallery-card-view-row">
+          <span class="gallery-card-view-label">Location</span>
+          <span class="gallery-card-view-value">${escapeHtml(item.location || 'Aurora, IL')}</span>
+        </div>
+        <div class="gallery-card-view-row">
+          <span class="gallery-card-view-label">Title</span>
+          <span class="gallery-card-view-value">${escapeHtml(item.title || 'Bhramhari Booth Display')}</span>
+        </div>
+        <div class="gallery-card-view-description">${escapeHtml(item.description || 'Highlight the Bhramhari brand display, booth setup, or event location.')}</div>
+      </div>
+      <div class="gallery-card-editable ${locked ? 'hidden' : ''}">
+        <label class="gallery-card-label">Event Name</label>
+        <input class="gallery-card-event" type="text" value="${escapeHtml(item.eventName || 'Bhramhari Event')}" placeholder="Edit event name" ${locked ? 'disabled' : ''} />
+        <label class="gallery-card-label">Location</label>
+        <input class="gallery-card-location" type="text" value="${escapeHtml(item.location || 'Aurora, IL')}" placeholder="Edit location" ${locked ? 'disabled' : ''} />
+        <label class="gallery-card-label">Photo Title</label>
+        <input class="gallery-card-title" type="text" value="${escapeHtml(item.title || 'Bhramhari Booth Display')}" placeholder="Add a Bhramhari title" ${locked ? 'disabled' : ''} />
+        <label class="gallery-card-label">Description</label>
+        <textarea class="gallery-card-description" placeholder="Describe this booth or event setup" ${locked ? 'disabled' : ''}>${escapeHtml(item.description || 'Highlight the Bhramhari brand display, booth setup, or event location.')}</textarea>
+      </div>
+    </div>
+  `;
+
+  const eventInput = card.querySelector('.gallery-card-event');
+  const locationInput = card.querySelector('.gallery-card-location');
+  const titleInput = card.querySelector('.gallery-card-title');
+  const descTextarea = card.querySelector('.gallery-card-description');
+  const saveBtn = card.querySelector('.gallery-card-save');
+  const removeBtn = card.querySelector('.gallery-card-remove');
+  const editBtn = card.querySelector('.gallery-card-edit');
+
+  const viewSection = card.querySelector('.gallery-card-view');
+  const editSection = card.querySelector('.gallery-card-editable');
+
+  const updateCardState = (lockedState) => {
+    if (eventInput) eventInput.disabled = lockedState;
+    if (locationInput) locationInput.disabled = lockedState;
+    if (titleInput) titleInput.disabled = lockedState;
+    if (descTextarea) descTextarea.disabled = lockedState;
+    if (saveBtn) {
+      saveBtn.textContent = lockedState ? 'Saved' : 'Save';
+      saveBtn.disabled = lockedState;
+      saveBtn.classList.toggle('gallery-card-saved', lockedState);
+    }
+    if (editBtn) {
+      editBtn.disabled = !lockedState;
+    }
+    if (viewSection) viewSection.classList.toggle('hidden', !lockedState);
+    if (editSection) editSection.classList.toggle('hidden', lockedState);
+  };
+
+  const saveCard = () => {
+    const items = getStoredGalleryItems();
+    const target = items.find(i => i.id === item.id);
+    if (!target) return;
+    target.eventName = eventInput?.value || '';
+    target.location = locationInput?.value || '';
+    target.title = titleInput?.value || '';
+    target.description = descTextarea?.value || '';
+    target.locked = true;
+    storeGalleryItems(items);
+    if (viewSection) {
+      viewSection.querySelector('.gallery-card-view-row:nth-child(1) .gallery-card-view-value').textContent = target.eventName || 'Bhramhari Event';
+      viewSection.querySelector('.gallery-card-view-row:nth-child(2) .gallery-card-view-value').textContent = target.location || 'Aurora, IL';
+      viewSection.querySelector('.gallery-card-view-row:nth-child(3) .gallery-card-view-value').textContent = target.title || 'Bhramhari Booth Display';
+      viewSection.querySelector('.gallery-card-view-description').textContent = target.description || 'Highlight the Bhramhari brand display, booth setup, or event location.';
+    }
+    updateCardState(true);
+  };
+
+  const editCard = () => {
+    const items = getStoredGalleryItems();
+    const target = items.find(i => i.id === item.id);
+    if (!target) return;
+    target.locked = false;
+    storeGalleryItems(items);
+    updateCardState(false);
+    const firstField = eventInput || locationInput || titleInput;
+    if (firstField) {
+      firstField.focus();
+      if (firstField.select) firstField.select();
+    }
+  };
+
+  updateCardState(locked);
+
+  saveBtn?.addEventListener('click', saveCard);
+  removeBtn?.addEventListener('click', () => removeGalleryItem(item.id));
+  editBtn?.addEventListener('click', editCard);
+  return card;
+}
+
+async function renderGalleryItems() {
+  const grid = document.getElementById('gallery-grid');
+  const empty = document.getElementById('gallery-empty');
+  if (!grid) return;
+
+  const items = await loadGalleryItems();
+  grid.innerHTML = '';
+
+  if (!items.length) {
+    if (empty) {
+      empty.style.display = 'block';
+      grid.appendChild(empty);
+    }
+    return;
+  }
+
+  items.forEach(item => {
+    grid.appendChild(createGalleryCard(item));
+  });
+}
+
+function updateGalleryStatus() {
+  const status = document.getElementById('gallery-status');
+  if (!status) return;
+  if (!pendingGalleryFiles.length) {
+    status.textContent = 'Choose one or more photos and add Bhramhari-friendly captions, event name, and location, then click Save.';
+  } else {
+    status.textContent = `${pendingGalleryFiles.length} photo(s) selected. Add your details and press Save to enter them into the gallery.`;
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => renderGalleryItems());
+
+function handleGalleryUpload(event) {
+  pendingGalleryFiles = Array.from(event.target.files).filter(file => file.type.startsWith('image/'));
+  updateGalleryStatus();
+}
+
+function fileToDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error('Failed to read file'));
+    reader.readAsDataURL(file);
+  });
+}
+
+async function saveGalleryEntry() {
+  if (!pendingGalleryFiles.length) {
+    alert('Please choose at least one photo before saving.');
+    return;
+  }
+
+  const title = document.getElementById('gallery-title').value.trim();
+  const eventName = document.getElementById('gallery-event').value.trim();
+  const location = document.getElementById('gallery-location').value.trim();
+  const description = document.getElementById('gallery-description').value.trim();
+  const storedItems = await loadGalleryItems();
+
+  const savedItems = await Promise.all(pendingGalleryFiles.map(async file => {
+    return {
+      id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+      src: await fileToDataURL(file),
+      title: title || 'Bhramhari Booth Display',
+      description: description || 'Highlight the Bhramhari brand display, booth setup, or event location.',
+      eventName: eventName || 'Bhramhari Event',
+      location: location || 'Aurora, IL',
+      locked: true,
+    };
+  }));
+
+  const allItems = [...savedItems, ...storedItems];
+  await storeGalleryItems(allItems);
+  pendingGalleryFiles = [];
+  document.getElementById('gallery-files').value = '';
+  document.getElementById('gallery-title').value = '';
+  document.getElementById('gallery-event').value = '';
+  document.getElementById('gallery-location').value = '';
+  document.getElementById('gallery-description').value = '';
+  updateGalleryStatus();
+  renderGalleryItems();
+}
+
+function removeGalleryItem(itemId) {
+  const items = getStoredGalleryItems().filter(item => item.id !== itemId);
+  storeGalleryItems(items);
+  renderGalleryItems();
+}
+
+function addUpcomingEvent() {
+  const name = document.getElementById('event-name').value.trim();
+  const date = document.getElementById('event-date').value;
+  const location = document.getElementById('event-location').value.trim();
+  const description = document.getElementById('event-description').value.trim();
+  const flyerInput = document.getElementById('event-flyer');
+  if (!name || !date || !location || !description) {
+    alert('Please fill in the event name, date, location, and details.');
+    return;
+  }
+  const feed = document.getElementById('events-feed');
+  const empty = document.querySelector('.events-empty');
+  if (empty) empty.style.display = 'none';
+  const card = document.createElement('div');
+  card.className = 'event-card';
+  const flyerFile = flyerInput.files[0];
+  const renderCard = flyerSrc => {
+    card.innerHTML = `
+      ${flyerSrc ? `<img src="${flyerSrc}" alt="${name} flyer" />` : ''}
+      <div class="event-card-body">
+        <div class="event-card-flag">Upcoming Bhramhari Event</div>
+        <div class="event-card-title">${name}</div>
+        <div class="event-card-meta">
+          <span><span class="meta-label">Date:</span> ${new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+          <span><span class="meta-label">Location:</span> ${location}</span>
+        </div>
+        <div class="event-card-description">${description}</div>
+        <div class="event-badge-row">
+          <span class="event-badge">Bhramhari</span>
+          <span class="event-badge">Flyer Added</span>
+        </div>
+      </div>
+    `;
+    feed.prepend(card);
+  };
+  if (flyerFile && flyerFile.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = () => renderCard(reader.result);
+    reader.readAsDataURL(flyerFile);
+  } else {
+    renderCard('');
+  }
+  document.getElementById('event-name').value = '';
+  document.getElementById('event-date').value = '';
+  document.getElementById('event-location').value = '';
+  document.getElementById('event-description').value = '';
+  flyerInput.value = '';
+}
+
 function signUpEmail() {
   const val = document.getElementById('email-input').value.trim();
   if (!val) { alert('Please enter your email.'); return; }
