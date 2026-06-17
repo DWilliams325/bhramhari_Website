@@ -354,6 +354,69 @@ function addUpcomingEvent() {
   flyerInput.value = '';
 }
 
+// Paste your published Google Sheets CSV URL here.
+// In Sheets: File > Share > Publish to web > Sheet1 > CSV > Publish, then copy the URL.
+// Expected columns (row 1 = headers): Event Name, Date, Location, Description, Flyer URL
+const EVENTS_SHEETS_URL = '';
+
+function parseCSVRow(row) {
+  const result = [];
+  let cur = '';
+  let inQuotes = false;
+  for (let i = 0; i < row.length; i++) {
+    if (row[i] === '"' && !inQuotes) { inQuotes = true; }
+    else if (row[i] === '"' && inQuotes) { inQuotes = false; }
+    else if (row[i] === ',' && !inQuotes) { result.push(cur.trim()); cur = ''; }
+    else { cur += row[i]; }
+  }
+  result.push(cur.trim());
+  return result;
+}
+
+async function loadEventsFromSheets() {
+  const feed = document.getElementById('events-feed');
+  if (!feed) return;
+  if (!EVENTS_SHEETS_URL) {
+    feed.innerHTML = '<div class="events-empty">No Google Sheets URL set yet. Add your published CSV URL to <strong>EVENTS_SHEETS_URL</strong> in script.js.</div>';
+    return;
+  }
+  feed.innerHTML = '<div class="events-empty">Loading events…</div>';
+  try {
+    const res = await fetch(EVENTS_SHEETS_URL);
+    const text = await res.text();
+    const rows = text.trim().split('\n').slice(1).filter(r => r.trim());
+    if (!rows.length) {
+      feed.innerHTML = '<div class="events-empty">No upcoming events found in the sheet.</div>';
+      return;
+    }
+    feed.innerHTML = '';
+    rows.forEach(row => {
+      const [name, date, location, description, flyerUrl] = parseCSVRow(row);
+      if (!name) return;
+      const formattedDate = date ? (() => { try { return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); } catch { return date; } })() : '';
+      const card = document.createElement('div');
+      card.className = 'event-card';
+      card.innerHTML = `
+        ${flyerUrl ? `<img src="${flyerUrl}" alt="${escapeHtml(name)} flyer" />` : ''}
+        <div class="event-card-body">
+          <div class="event-card-flag">Upcoming Bhramhari Event</div>
+          <div class="event-card-title">${escapeHtml(name)}</div>
+          <div class="event-card-meta">
+            ${formattedDate ? `<span><span class="meta-label">Date:</span> ${formattedDate}</span>` : ''}
+            ${location ? `<span><span class="meta-label">Location:</span> ${escapeHtml(location)}</span>` : ''}
+          </div>
+          ${description ? `<div class="event-card-description">${escapeHtml(description)}</div>` : ''}
+          <div class="event-badge-row"><span class="event-badge">Bhramhari</span></div>
+        </div>`;
+      feed.appendChild(card);
+    });
+  } catch {
+    feed.innerHTML = '<div class="events-empty">Could not load events. Check that the Sheets URL is published and try Refresh.</div>';
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => loadEventsFromSheets());
+
 function signUpEmail() {
   const val = document.getElementById('email-input').value.trim();
   if (!val) { alert('Please enter your email.'); return; }

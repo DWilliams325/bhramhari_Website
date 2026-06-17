@@ -27,6 +27,8 @@
     <a onclick="showPage('home')" id="nav-home" class="active">Home</a>
     <a onclick="showPage('services')" id="nav-services">Services</a>
     <a onclick="showPage('about')" id="nav-about">About Me</a>
+    <a onclick="showPage('gallery')" id="nav-gallery">Gallery</a>
+    <a onclick="showPage('events')" id="nav-events">Upcoming Events</a>
     <a onclick="showPage('reviews')" id="nav-reviews">Reviews</a>
     <a onclick="showPage('contact')" id="nav-contact">Contact</a>
     <a onclick="showPage('booking')" class="nav-book" id="nav-booking">Book Online</a>
@@ -431,6 +433,77 @@
             <p style="font-size:14px;color:var(--gray);line-height:1.65;">Protect your home and family from unexpected events with mortgage protection strategies and insurance.</p>
           </div>
       </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ GALLERY PAGE ============ -->
+<div class="page" id="page-gallery">
+  <div style="background:var(--navy);padding:80px 48px;text-align:center;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;opacity:0.04;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='80'%3E%3Cpolygon points='35,4 66,20 66,54 35,70 4,54 4,20' fill='none' stroke='%23ffffff' stroke-width='1.5'/%3E%3C/svg%3E&quot;);background-size:70px 80px;"></div>
+    <div style="position:relative;z-index:2;">
+      <span class="chip chip-gold">Gallery</span>
+      <h1 style="font-family:'Playfair Display',serif;font-size:50px;font-weight:900;color:#fff;margin-top:10px;">Recent <em>Booths</em></h1>
+      <p style="color:rgba(255,255,255,0.65);font-size:18px;margin-top:14px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7;">Showcase your completed booths and stands with an image gallery you can update anytime.</p>
+    </div>
+  </div>
+  <section class="section">
+    <div style="max-width:780px;margin:0 auto;text-align:center;">
+      <span class="chip">Booth Gallery</span>
+      <h2 class="section-h" style="margin-top:10px;">Upload Your Event <em>Displays</em></h2>
+      <p class="section-p" style="max-width:100%;margin-top:16px;">Upload pictures of past booths and stands so visitors can see your event setups and brand presentation.</p>
+    </div>
+    <div class="gallery-actions">
+      <div class="gallery-fields">
+        <div class="gallery-field">
+          <label for="gallery-title">Bhramhari Booth Title</label>
+          <input type="text" id="gallery-title" placeholder="e.g. Aurora Expo Booth" />
+        </div>
+        <div class="gallery-field">
+          <label for="gallery-event">Event Name</label>
+          <input type="text" id="gallery-event" placeholder="e.g. Community Expo 2026" />
+        </div>
+        <div class="gallery-field">
+          <label for="gallery-location">Event Location</label>
+          <input type="text" id="gallery-location" placeholder="e.g. Aurora, IL" />
+        </div>
+        <div class="gallery-field">
+          <label for="gallery-description">Photo Description</label>
+          <input type="text" id="gallery-description" placeholder="e.g. Branded stand with financial planning brochures" />
+        </div>
+      </div>
+      <div class="gallery-action-row">
+        <label class="btn-fill gallery-upload-btn" for="gallery-files">Choose Booth Photos</label>
+        <button class="btn-ghost gallery-save-btn" onclick="saveGalleryEntry()">Save Gallery Item</button>
+      </div>
+      <input type="file" id="gallery-files" accept="image/*" multiple onchange="handleGalleryUpload(event)" />
+      <div id="gallery-status" class="gallery-help">Choose one or more photos and add Bhramhari-friendly captions, event name, and location, then click Save.</div>
+    </div>
+    <div id="gallery-grid" class="gallery-grid">
+      <div id="gallery-empty" class="gallery-empty">No photos yet. Upload images of your booths and stands to populate the gallery.</div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ UPCOMING EVENTS PAGE ============ -->
+<div class="page" id="page-events">
+  <div style="background:var(--navy);padding:80px 48px;text-align:center;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;opacity:0.04;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='80'%3E%3Cpolygon points='35,4 66,20 66,54 35,70 4,54 4,20' fill='none' stroke='%23ffffff' stroke-width='1.5'/%3E%3C/svg%3E&quot;);background-size:70px 80px;"></div>
+    <div style="position:relative;z-index:2;">
+      <span class="chip chip-gold">Upcoming Events</span>
+      <h1 style="font-family:'Playfair Display',serif;font-size:50px;font-weight:900;color:#fff;margin-top:10px;">Bhramhari <em>Events</em></h1>
+      <p style="color:rgba(255,255,255,0.65);font-size:18px;margin-top:14px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7;">Upcoming events pulled live from Google Sheets — updated whenever you edit the sheet.</p>
+    </div>
+  </div>
+  <section class="section">
+    <div style="max-width:780px;margin:0 auto;text-align:center;">
+      <span class="chip">Event Schedule</span>
+      <h2 class="section-h" style="margin-top:10px;">Where You'll Find <em>Bhramhari</em></h2>
+      <p class="section-p" style="max-width:100%;margin-top:16px;">Events are managed via Google Sheets. Add a row to your sheet and click Refresh to update this page.</p>
+      <button class="btn-ghost" onclick="loadEventsFromSheets()" style="margin-top:20px;">↻ Refresh Events</button>
+    </div>
+    <div class="events-feed" id="events-feed" style="max-width:780px;margin:32px auto 0;">
+      <div class="events-empty">Loading events…</div>
     </div>
   </section>
 </div>
