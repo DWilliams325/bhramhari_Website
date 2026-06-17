@@ -6,14 +6,18 @@
 <title>Bhramhari — Building Bright Futures</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="../styles/styles.css" />
+<script type="text/javascript">
+  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, [L, namespace, ar[2]])} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+  Cal("init", {origin:"https://app.cal.com"});
+</script>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
   <div class="nav-brand" onclick="showPage('home')">
-    <img src="BHRAMHARI logo final (1).png" alt="Bhramhari logo" class="nav-logo" />
+    <div class="nav-bee">🐝</div>
     <div>
       <div class="nav-name">Bhramhari</div>
       <div class="nav-sub">Building Bright Futures</div>
@@ -23,8 +27,6 @@
     <a onclick="showPage('home')" id="nav-home" class="active">Home</a>
     <a onclick="showPage('services')" id="nav-services">Services</a>
     <a onclick="showPage('about')" id="nav-about">About Me</a>
-    <a onclick="showPage('gallery')" id="nav-gallery">Gallery</a>
-    <a onclick="showPage('events')" id="nav-events">Upcoming Events</a>
     <a onclick="showPage('reviews')" id="nav-reviews">Reviews</a>
     <a onclick="showPage('contact')" id="nav-contact">Contact</a>
     <a onclick="showPage('booking')" class="nav-book" id="nav-booking">Book Online</a>
@@ -177,7 +179,15 @@
       </div>
       <div style="background:var(--navy);border-radius:22px;padding:48px 40px;text-align:center;position:relative;overflow:hidden;">
         <div style="position:absolute;inset:0;opacity:0.05;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='70'%3E%3Cpolygon points='30,4 56,18 56,46 30,60 4,46 4,18' fill='none' stroke='%23fff' stroke-width='1.5'/%3E%3C/svg%3E&quot;);background-size:60px 70px;"></div>
-        <img src="SaritaBPic_1575.jpg" alt="Sarita Budithi" class="about-square small" style="margin:0 auto;position:relative;z-index:2;display:block;" />
+        <div style="width:110px;height:110px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:44px;font-weight:900;color:#fff;border:4px solid var(--gold);margin:0 auto 22px;position:relative;z-index:2;">SB</div>
+        <div style="color:#fff;font-family:'Playfair Display',serif;font-size:22px;font-weight:700;position:relative;z-index:2;">Sarita Budithi</div>
+        <div style="color:var(--gold);font-size:12px;letter-spacing:2px;font-weight:600;position:relative;z-index:2;margin-top:6px;">LICENSED FINANCIAL PROFESSIONAL</div>
+        <div style="display:flex;gap:12px;justify-content:center;margin-top:28px;position:relative;z-index:2;flex-wrap:wrap;">
+          <div style="background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.3);border-radius:100px;padding:7px 16px;color:var(--gold);font-size:12px;font-weight:600;">📚 Books</div>
+          <div style="background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.3);border-radius:100px;padding:7px 16px;color:var(--gold);font-size:12px;font-weight:600;">🧘 Yoga</div>
+          <div style="background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.3);border-radius:100px;padding:7px 16px;color:var(--gold);font-size:12px;font-weight:600;">👜 Handbags</div>
+          <div style="background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.3);border-radius:100px;padding:7px 16px;color:var(--gold);font-size:12px;font-weight:600;">🥻 Sarees</div>
+        </div>
       </div>
     </div>
   </section>
@@ -318,19 +328,17 @@
     <div class="about-grid">
       <div class="about-visual">
         <div class="about-hc"></div>
-        <img src="SaritaBPic_1575.jpg" alt="Sarita Budithi" class="about-square" />
+        <div class="about-avatar">SB</div>
+        <div class="about-name-big">Sarita Budithi</div>
+        <div class="about-title-big">Licensed Financial Professional</div>
+        <div class="about-socials">
+          <a class="about-social" href="https://www.facebook.com" target="_blank">f</a>
+          <a class="about-social" href="https://www.twitter.com" target="_blank">𝕏</a>
+          <a class="about-social" href="https://www.linkedin.com" target="_blank">in</a>
+          <a class="about-social" href="https://www.instagram.com" target="_blank">ig</a>
+        </div>
       </div>
       <div class="about-content">
-        <div style="text-align:center;margin-bottom:18px;">
-          <div class="about-name-big">Sarita Budithi</div>
-          <div class="about-title-big">Licensed Financial Professional</div>
-          <div class="about-socials" style="margin-top:18px;justify-content:center;">
-            <a class="about-social" href="https://www.facebook.com" target="_blank">f</a>
-            <a class="about-social" href="https://www.twitter.com" target="_blank">𝕏</a>
-            <a class="about-social" href="https://www.linkedin.com" target="_blank">in</a>
-            <a class="about-social" href="https://www.instagram.com" target="_blank">ig</a>
-          </div>
-        </div>
         <span class="chip">My Story</span>
         <h2 class="section-h" style="margin-top:10px;">Passionate About<br><em>Your Future</em></h2>
         <p class="section-p" style="max-width:100%;margin-top:16px;">My name is Sarita Budithi. I'm a licensed financial professional who advises on estate planning, basic family protections, and retirement solutions.</p>
@@ -362,10 +370,6 @@
           <div class="about-contact-item">
             <div class="about-contact-icon">📸</div>
             <a href="https://www.instagram.com/bhramhari.llc" target="_blank" rel="noopener" style="color:var(--navy);text-decoration:none;font-weight:600;">@bhramhari.llc</a>
-          </div>
-          <div class="about-contact-item">
-            <div class="about-contact-icon">📍</div>
-            <div style="color:var(--navy);font-weight:600;">75th Executive Drive, Suite 419, Aurora, Illinois, 60504</div>
           </div>
           <div class="about-contact-item">
             <div class="about-contact-icon">▶️</div>
@@ -431,105 +435,6 @@
   </section>
 </div>
 
-<!-- ============ GALLERY PAGE ============ -->
-<div class="page" id="page-gallery">
-  <div style="background:var(--navy);padding:80px 48px;text-align:center;position:relative;overflow:hidden;">
-    <div style="position:absolute;inset:0;opacity:0.04;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='80'%3E%3Cpolygon points='35,4 66,20 66,54 35,70 4,54 4,20' fill='none' stroke='%23ffffff' stroke-width='1.5'/%3E%3C/svg%3E&quot;);background-size:70px 80px;"></div>
-    <div style="position:relative;z-index:2;">
-      <span class="chip chip-gold">Gallery</span>
-      <h1 style="font-family:'Playfair Display',serif;font-size:50px;font-weight:900;color:#fff;margin-top:10px;">Recent <em>Booths</em></h1>
-      <p style="color:rgba(255,255,255,0.65);font-size:18px;margin-top:14px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7;">Showcase your completed booths and stands with an image gallery you can update anytime.</p>
-    </div>
-  </div>
-  <section class="section">
-    <div style="max-width:780px;margin:0 auto;text-align:center;">
-      <span class="chip">Booth Gallery</span>
-      <h2 class="section-h" style="margin-top:10px;">Upload Your Event <em>Displays</em></h2>
-      <p class="section-p" style="max-width:100%;margin-top:16px;">Upload pictures of past booths and stands so visitors can see your event setups and brand presentation.</p>
-    </div>
-    <div class="gallery-actions">
-      <div class="gallery-fields">
-        <div class="gallery-field">
-          <label for="gallery-title">Bhramhari Booth Title</label>
-          <input type="text" id="gallery-title" placeholder="e.g. Aurora Expo Booth" />
-        </div>
-        <div class="gallery-field">
-          <label for="gallery-event">Event Name</label>
-          <input type="text" id="gallery-event" placeholder="e.g. Community Expo 2026" />
-        </div>
-        <div class="gallery-field">
-          <label for="gallery-location">Event Location</label>
-          <input type="text" id="gallery-location" placeholder="e.g. Aurora, IL" />
-        </div>
-        <div class="gallery-field">
-          <label for="gallery-description">Photo Description</label>
-          <input type="text" id="gallery-description" placeholder="e.g. Branded stand with financial planning brochures" />
-        </div>
-      </div>
-      <div class="gallery-action-row">
-        <label class="btn-fill gallery-upload-btn" for="gallery-files">Choose Booth Photos</label>
-        <button class="btn-ghost gallery-save-btn" onclick="saveGalleryEntry()">Save Gallery Item</button>
-      </div>
-      <input type="file" id="gallery-files" accept="image/*" multiple onchange="handleGalleryUpload(event)" />
-      <div id="gallery-status" class="gallery-help">Choose one or more photos and add Bhramhari-friendly captions, event name, and location, then click Save.</div>
-    </div>
-    <div id="gallery-grid" class="gallery-grid">
-      <div id="gallery-empty" class="gallery-empty">No photos yet. Upload images of your booths and stands to populate the gallery.</div>
-    </div>
-  </section>
-</div>
-
-<!-- ============ UPCOMING EVENTS PAGE ============ -->
-<div class="page" id="page-events">
-  <div style="background:var(--navy);padding:80px 48px;text-align:center;position:relative;overflow:hidden;">
-    <div style="position:absolute;inset:0;opacity:0.04;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='80'%3E%3Cpolygon points='35,4 66,20 66,54 35,70 4,54 4,20' fill='none' stroke='%23ffffff' stroke-width='1.5'/%3E%3C/svg%3E&quot;);background-size:70px 80px;"></div>
-    <div style="position:relative;z-index:2;">
-      <span class="chip chip-gold">Upcoming Events</span>
-      <h1 style="font-family:'Playfair Display',serif;font-size:50px;font-weight:900;color:#fff;margin-top:10px;">Bhramhari <em>Events</em></h1>
-      <p style="color:rgba(255,255,255,0.65);font-size:18px;margin-top:14px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7;">Add upcoming Bhramhari events, upload your flyers, and keep your audience informed about where we’ll be next.</p>
-    </div>
-  </div>
-  <section class="section">
-    <div style="max-width:780px;margin:0 auto;text-align:center;">
-      <span class="chip">Event Management</span>
-      <h2 class="section-h" style="margin-top:10px;">Create Your Upcoming <em>Flyers</em></h2>
-      <p class="section-p" style="max-width:100%;margin-top:16px;">Add new events with dates, locations, and flyer art so visitors can see your next Bhramhari engagements.</p>
-    </div>
-    <div class="events-panel">
-      <div class="events-form">
-        <div class="event-input-row">
-          <div class="event-input-field">
-            <label for="event-name">Event Name</label>
-            <input type="text" id="event-name" placeholder="e.g. Aurora Community Expo" />
-          </div>
-          <div class="event-input-field">
-            <label for="event-date">Date</label>
-            <input type="date" id="event-date" />
-          </div>
-        </div>
-        <div class="event-input-row">
-          <div class="event-input-field">
-            <label for="event-location">Location</label>
-            <input type="text" id="event-location" placeholder="e.g. Aurora, IL" />
-          </div>
-          <div class="event-input-field">
-            <label for="event-flyer">Flyer Image</label>
-            <input type="file" id="event-flyer" accept="image/*" />
-          </div>
-        </div>
-        <div class="event-input-field full-width">
-          <label for="event-description">Event Details</label>
-          <textarea id="event-description" placeholder="Describe the event, schedule, or Bhramhari focus."></textarea>
-        </div>
-        <button class="btn-fill" onclick="addUpcomingEvent()">Add Upcoming Event</button>
-      </div>
-      <div class="events-feed" id="events-feed">
-        <div class="events-empty">No upcoming events yet. Add your next Bhramhari events and flyers here.</div>
-      </div>
-    </div>
-  </section>
-</div>
-
 <!-- ============ BOOKING PAGE ============ -->
 <div class="page" id="page-booking">
   <div style="background:var(--navy);padding:80px 48px;text-align:center;position:relative;overflow:hidden;">
@@ -546,24 +451,20 @@
           <p>Select a service below and choose a time that works for you.</p>
         </div>
         <div class="booking-body">
-          <div style="margin-bottom:28px;">
-            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray);margin-bottom:12px;">Select a Service</div>
-            <select id="svc-select" style="width:100%;padding:12px 16px;font-size:16px;font-family:inherit;border:2px solid rgba(0,0,0,0.1);border-radius:8px;background:#fff;color:var(--navy);cursor:pointer;appearance:auto;outline:none;">
-              <option value="">— Choose a service —</option>
-              <option value="estate">🏛️ Estate Planning</option>
-              <option value="insurance">🛡️ Insurance Consultation</option>
-              <option value="retirement">🌅 Retirement Planning</option>
-              <option value="health">🩺 Health Insurance</option>
-              <option value="longterm">🧓 Long-Term Care</option>
-              <option value="disability">♿ Disability</option>
-              <option value="travel">✈️ Travel Insurance</option>
-              <option value="notary">🖋️ Notary</option>
-              <option value="mortgage">🏠 Mortgage Protection</option>
-            </select>
+          <div class="svc-pills">
+            <div class="svc-pill selected" id="pill-insurance" onclick="switchCal('insurance')">🛡️ Insurance Consultation</div>
+            <div class="svc-pill" id="pill-retirement" onclick="switchCal('retirement')">🌅 Retirement Planning</div>
+            <div class="svc-pill" id="pill-estate" onclick="switchCal('estate')">🏛️ Estate Planning</div>
           </div>
-          <button id="booking-btn" onclick="openBooking()" class="btn-fill booking-cta">
-            Schedule Appointment →
-          </button>
+          <div id="cal-insurance" class="cal-embed-wrap">
+            <div id="cal-insurance-inline" style="width:100%;height:650px;overflow:scroll;"></div>
+          </div>
+          <div id="cal-retirement" class="cal-embed-wrap" style="display:none;">
+            <div id="cal-retirement-inline" style="width:100%;height:650px;overflow:scroll;"></div>
+          </div>
+          <div id="cal-estate" class="cal-embed-wrap" style="display:none;">
+            <div id="cal-estate-inline" style="width:100%;height:650px;overflow:scroll;"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -641,7 +542,6 @@
         <div class="contact-blocks">
           <div class="contact-block"><div class="cb-icon">✉️</div><div><div class="cb-label">Email</div><div class="cb-value"><a href="mailto:bhramhari.sarita@gmail.com">bhramhari.sarita@gmail.com</a></div></div></div>
           <div class="contact-block"><div class="cb-icon">📞</div><div><div class="cb-label">Phone</div><div class="cb-value"><a href="tel:4125314557" style="color:var(--navy);">(412) 531-4557</a></div></div></div>
-          <div class="contact-block"><div class="cb-icon">📍</div><div><div class="cb-label">Office</div><div class="cb-value">75th Executive Drive, Suite 419, Aurora, Illinois, 60504</div></div></div>
           <div class="contact-block"><div class="cb-icon">🕐</div><div><div class="cb-label">Response Time</div><div class="cb-value">Within 24 hours</div></div></div>
           <div class="contact-block"><div class="cb-icon">📅</div><div><div class="cb-label">Book a Consultation</div><div class="cb-value"><a href="#" onclick="showPage('booking');return false;">Schedule online →</a></div></div></div>
           <div class="contact-block"><div class="cb-icon">▶️</div><div><div class="cb-label">YouTube</div><div class="cb-value"><a href="https://www.youtube.com/@bhramhari" target="_blank" rel="noopener">www.youtube.com/@bhramhari</a></div></div></div>
@@ -678,8 +578,6 @@
       <a onclick="showPage('home')">Home</a>
       <a onclick="showPage('services')">Services</a>
       <a onclick="showPage('about')">About Me</a>
-      <a onclick="showPage('gallery')">Gallery</a>
-      <a onclick="showPage('events')">Upcoming Events</a>
       <a onclick="showPage('reviews')">Reviews</a>
       <a onclick="showPage('contact')">Contact</a>
       <a onclick="showPage('booking')">Book Online</a>
