@@ -370,6 +370,9 @@ nav {
 .event-card-meta .meta-label { font-weight: 700; color: var(--navy); }
 .event-card-description { color: #45506d; line-height: 1.7; }
 .event-badge-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.event-qr-wrap { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 14px; background: var(--light); border-radius: 12px; width: fit-content; }
+.event-qr { width: 160px; height: 160px; display: block; border-radius: 6px; }
+.event-qr-label { font-size: 12px; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: 0.08em; }
 .event-badge { background: rgba(15,35,71,0.05); color: var(--navy); padding: 8px 12px; border-radius: 999px; font-size: 13px; font-weight: 700; }
 
 @media (max-width: 980px) {

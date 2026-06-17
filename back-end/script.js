@@ -356,8 +356,8 @@ function addUpcomingEvent() {
 
 // Paste your published Google Sheets CSV URL here.
 // In Sheets: File > Share > Publish to web > Sheet1 > CSV > Publish, then copy the URL.
-// Expected columns (row 1 = headers): Event Name, Date, Location, Description, Flyer URL
-const EVENTS_SHEETS_URL = '';
+// Expected columns (row 1 = headers): Title, Date, Time, Location, Type, Description, Link, Active
+const EVENTS_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSQFo9tgGR_OsKtuQqLZfbpomralH0fz8Xvcy0PBTJBf30HAoCadGJFxAbEpSW6lVqaXGnuLNoHGAwX/pub?gid=0&single=true&output=csv';
 
 function parseCSVRow(row) {
   const result = [];
@@ -390,26 +390,36 @@ async function loadEventsFromSheets() {
       return;
     }
     feed.innerHTML = '';
+    let shown = 0;
     rows.forEach(row => {
-      const [name, date, location, description, flyerUrl] = parseCSVRow(row);
-      if (!name) return;
+      const [title, date, time, location, type, description, link, active] = parseCSVRow(row);
+      if (!title) return;
+      if (active && active.toLowerCase() !== 'true' && active.toLowerCase() !== 'yes') return;
+      shown++;
       const formattedDate = date ? (() => { try { return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); } catch { return date; } })() : '';
+      const qrSrc = link ? `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(link)}` : '';
       const card = document.createElement('div');
       card.className = 'event-card';
       card.innerHTML = `
-        ${flyerUrl ? `<img src="${flyerUrl}" alt="${escapeHtml(name)} flyer" />` : ''}
         <div class="event-card-body">
-          <div class="event-card-flag">Upcoming Bhramhari Event</div>
-          <div class="event-card-title">${escapeHtml(name)}</div>
+          <div class="event-card-flag">Upcoming Bhramhari Event${type ? ` · ${escapeHtml(type)}` : ''}</div>
+          <div class="event-card-title">${escapeHtml(title)}</div>
           <div class="event-card-meta">
             ${formattedDate ? `<span><span class="meta-label">Date:</span> ${formattedDate}</span>` : ''}
+            ${time ? `<span><span class="meta-label">Time:</span> ${escapeHtml(time)}</span>` : ''}
             ${location ? `<span><span class="meta-label">Location:</span> ${escapeHtml(location)}</span>` : ''}
           </div>
           ${description ? `<div class="event-card-description">${escapeHtml(description)}</div>` : ''}
-          <div class="event-badge-row"><span class="event-badge">Bhramhari</span></div>
+          ${qrSrc ? `
+          <div class="event-qr-wrap">
+            <img src="${qrSrc}" alt="QR code for ${escapeHtml(title)}" class="event-qr" />
+            <div class="event-qr-label">Scan to learn more</div>
+          </div>` : ''}
+          <div class="event-badge-row"><span class="event-badge">Bhramhari</span>${type ? `<span class="event-badge">${escapeHtml(type)}</span>` : ''}</div>
         </div>`;
       feed.appendChild(card);
     });
+    if (shown === 0) feed.innerHTML = '<div class="events-empty">No active events right now. Check back soon!</div>';
   } catch {
     feed.innerHTML = '<div class="events-empty">Could not load events. Check that the Sheets URL is published and try Refresh.</div>';
   }
