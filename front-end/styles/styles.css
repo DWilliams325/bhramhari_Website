@@ -392,6 +392,14 @@ nav {
 .booking-header p { color: rgba(255,255,255,0.65); font-size: 15px; margin-top: 6px; }
 .booking-body { padding: 36px; }
 .svc-select-wrap { margin-bottom: 28px; }
+.svc-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+.svc-pill {
+  padding: 10px 18px; border-radius: 100px; border: 2px solid var(--navy-m);
+  color: var(--navy-m); font-size: 14px; font-weight: 600; cursor: pointer;
+  transition: all 0.15s; user-select: none;
+}
+.svc-pill:hover { background: rgba(27,58,107,0.08); }
+.svc-pill.selected { background: var(--navy-m); border-color: var(--navy-m); color: #fff; }
 .booking-cta { font-size: 17px; padding: 16px 40px; border: none; cursor: pointer; }
 .svc-select-label {
   display: block; font-size: 13px; font-weight: 600;

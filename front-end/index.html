@@ -6,7 +6,7 @@
 <title>Bhramhari — Building Bright Futures</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/styles/styles.css" />
+<link rel="stylesheet" href="styles/styles.css" />
 <script type="text/javascript">
   (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, [L, namespace, ar[2]])} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
   Cal("init", {origin:"https://app.cal.com"});
@@ -88,7 +88,7 @@
           <div class="svc-tag">Service 01</div>
           <h3>Estate Planning</h3>
           <p>Our estate planning services help you manage and distribute your assets according to your wishes, ensuring a smooth transfer of wealth to your loved ones.</p>
-          <a class="svc-book" onclick="showPage('booking');selectService('estate')">Book Now →</a>
+          <a class="svc-book" onclick="showPage('booking');selectService('estate')" data-cal-link="bhramhari/estate-planning" data-cal-config='{"layout":"month_view"}'>Book Now →</a>
         </div>
       </div>
       <div class="svc-card">
@@ -99,7 +99,7 @@
           <div class="svc-tag">Service 02</div>
           <h3>Insurance Consultation</h3>
           <p>From term to permanent insurance, we offer comprehensive consultation services to protect you and your family's financial security with the right coverage.</p>
-          <a class="svc-book" onclick="showPage('booking');selectService('insurance')">Book Now →</a>
+          <a class="svc-book" onclick="showPage('booking');selectService('insurance')" data-cal-link="bhramhari/insurance-consultation" data-cal-config='{"layout":"month_view"}'>Book Now →</a>
         </div>
       </div>
       <div class="svc-card">
@@ -110,7 +110,7 @@
           <div class="svc-tag">Service 03</div>
           <h3>Retirement Planning</h3>
           <p>Plan for a secure and comfortable retirement. We help you create a customized strategy to achieve your goals and enjoy financial stability in your golden years.</p>
-          <a class="svc-book" onclick="showPage('booking');selectService('retirement')">Book Now →</a>
+          <a class="svc-book" onclick="showPage('booking');selectService('retirement')" data-cal-link="bhramhari/retirement-planning" data-cal-config='{"layout":"month_view"}'>Book Now →</a>
         </div>
       </div>
       <div class="svc-card">
@@ -119,7 +119,7 @@
           <div class="svc-tag">Service 04</div>
           <h3>General Health Insurance</h3>
           <p>Comprehensive guidance on health insurance options to protect you and your family against medical expenses.</p>
-          <a class="svc-book" onclick="showPage('booking');selectService('health')">Book Now →</a>
+          <a class="svc-book" onclick="showPage('booking');selectService('health')" data-cal-link="bhramhari/general-health-insurance" data-cal-config='{"layout":"month_view"}'>Book Now →</a>
         </div>
       </div>
       <div class="svc-card">
@@ -128,7 +128,7 @@
           <div class="svc-tag">Service 05</div>
           <h3>Long-Term Care</h3>
           <p>Plans and solutions to help cover long-term care needs, preserving dignity and financial stability for later life.</p>
-          <a class="svc-book" onclick="showPage('booking');selectService('longterm')">Book Now →</a>
+          <a class="svc-book" onclick="showPage('booking');selectService('longterm')" data-cal-link="bhramhari/long-term-care" data-cal-config='{"layout":"month_view"}'>Book Now →</a>
         </div>
       </div>
       <div class="svc-card">
@@ -137,7 +137,7 @@
           <div class="svc-tag">Service 06</div>
           <h3>Disability Coverage</h3>
           <p>Protect your income with disability insurance options tailored to keep your family financially secure if you can't work.</p>
-          <a class="svc-book" onclick="showPage('booking');selectService('disability')">Book Now →</a>
+          <a class="svc-book" onclick="showPage('booking');selectService('disability')" data-cal-link="bhramhari/disability-coverage" data-cal-config='{"layout":"month_view"}'>Book Now →</a>
         </div>
       </div>
       <div class="svc-card">
@@ -146,7 +146,7 @@
           <div class="svc-tag">Service 07</div>
           <h3>Travel Insurance</h3>
           <p>Travel protection plans covering trip cancellations, medical emergencies abroad, and lost baggage.</p>
-          <a class="svc-book" onclick="showPage('booking');selectService('travel')">Book Now →</a>
+          <a class="svc-book" onclick="showPage('booking');selectService('travel')" data-cal-link="bhramhari/travel-insurance" data-cal-config='{"layout":"month_view"}'>Book Now →</a>
         </div>
       </div>
       <div class="svc-card">
@@ -155,7 +155,7 @@
           <div class="svc-tag">Service 08</div>
           <h3>Notary Services</h3>
           <p>Convenient onsite notary services to help with documentation, wills, and estate paperwork.</p>
-          <a class="svc-book" onclick="showPage('booking');selectService('notary')">Book Now →</a>
+          <a class="svc-book" onclick="showPage('booking');selectService('notary')" data-cal-link="bhramhari/notary-services" data-cal-config='{"layout":"month_view"}'>Book Now →</a>
         </div>
       </div>
       <div class="svc-card">
@@ -164,7 +164,7 @@
           <div class="svc-tag">Service 09</div>
           <h3>Mortgage Protection</h3>
           <p>Protect your home and family from unexpected events with mortgage protection strategies and insurance.</p>
-          <a class="svc-book" onclick="showPage('booking');selectService('mortgage')">Book Now →</a>
+          <a class="svc-book" onclick="showPage('booking');selectService('mortgage')" data-cal-link="bhramhari/mortgage-protection" data-cal-config='{"layout":"month_view"}'>Book Now →</a>
         </div>
       </div>
     </div>
@@ -231,7 +231,7 @@
           <div class="svc-tag">Service 01</div>
           <h3>Estate Planning</h3>
           <p>Our estate planning services help you manage and distribute your assets according to your wishes, ensuring a smooth transfer of wealth to your loved ones. We provide personalized solutions tailored to your specific needs and financial goals.</p>
-          <a class="svc-book" onclick="showPage('booking');selectService('estate')">Book Now →</a>
+          <a class="svc-book" onclick="showPage('booking');selectService('estate')" data-cal-link="bhramhari/estate-planning" data-cal-config='{"layout":"month_view"}'>Book Now →</a>
         </div>
       </div>
       <div class="svc-card">
@@ -240,7 +240,7 @@
           <div class="svc-tag">Service 02</div>
           <h3>Insurance Consultation</h3>
           <p>From term to permanent insurance, we offer comprehensive insurance consultation services to protect you and your family's financial security. Our expert advice ensures you have the right coverage for your unique circumstances.</p>
-          <a class="svc-book" onclick="showPage('booking');selectService('insurance')">Book Now →</a>
+          <a class="svc-book" onclick="showPage('booking');selectService('insurance')" data-cal-link="bhramhari/insurance-consultation" data-cal-config='{"layout":"month_view"}'>Book Now →</a>
         </div>
       </div>
       <div class="svc-card">
@@ -249,7 +249,7 @@
           <div class="svc-tag">Service 03</div>
           <h3>Retirement Planning</h3>
           <p>Plan for a secure and comfortable retirement with our retirement planning services. We help you create a customized strategy to achieve your retirement goals, manage your savings, and enjoy financial stability in your golden years.</p>
-          <a class="svc-book" onclick="showPage('booking');selectService('retirement')">Book Now →</a>
+          <a class="svc-book" onclick="showPage('booking');selectService('retirement')" data-cal-link="bhramhari/retirement-planning" data-cal-config='{"layout":"month_view"}'>Book Now →</a>
         </div>
       </div>
       <div class="svc-card">
@@ -258,7 +258,7 @@
           <div class="svc-tag">Service 04</div>
           <h3>General Health Insurance</h3>
           <p>Comprehensive guidance on health insurance options to protect you and your family against medical expenses.</p>
-          <a class="svc-book" onclick="showPage('booking');selectService('health')">Book Now →</a>
+          <a class="svc-book" onclick="showPage('booking');selectService('health')" data-cal-link="bhramhari/general-health-insurance" data-cal-config='{"layout":"month_view"}'>Book Now →</a>
         </div>
       </div>
       <div class="svc-card">
@@ -267,7 +267,7 @@
           <div class="svc-tag">Service 05</div>
           <h3>Long-Term Care</h3>
           <p>Plans and solutions to help cover long-term care needs, preserving dignity and financial stability for later life.</p>
-          <a class="svc-book" onclick="showPage('booking');selectService('longterm')">Book Now →</a>
+          <a class="svc-book" onclick="showPage('booking');selectService('longterm')" data-cal-link="bhramhari/long-term-care" data-cal-config='{"layout":"month_view"}'>Book Now →</a>
         </div>
       </div>
       <div class="svc-card">
@@ -276,7 +276,7 @@
           <div class="svc-tag">Service 06</div>
           <h3>Disability Coverage</h3>
           <p>Protect your income with disability insurance options tailored to keep your family financially secure if you can't work.</p>
-          <a class="svc-book" onclick="showPage('booking');selectService('disability')">Book Now →</a>
+          <a class="svc-book" onclick="showPage('booking');selectService('disability')" data-cal-link="bhramhari/disability-coverage" data-cal-config='{"layout":"month_view"}'>Book Now →</a>
         </div>
       </div>
       <div class="svc-card">
@@ -285,7 +285,7 @@
           <div class="svc-tag">Service 07</div>
           <h3>Travel Insurance</h3>
           <p>Travel protection plans covering trip cancellations, medical emergencies abroad, and lost baggage.</p>
-          <a class="svc-book" onclick="showPage('booking');selectService('travel')">Book Now →</a>
+          <a class="svc-book" onclick="showPage('booking');selectService('travel')" data-cal-link="bhramhari/travel-insurance" data-cal-config='{"layout":"month_view"}'>Book Now →</a>
         </div>
       </div>
       <div class="svc-card">
@@ -294,7 +294,7 @@
           <div class="svc-tag">Service 08</div>
           <h3>Notary Services</h3>
           <p>Convenient onsite notary services to help with documentation, wills, and estate paperwork.</p>
-          <a class="svc-book" onclick="showPage('booking');selectService('notary')">Book Now →</a>
+          <a class="svc-book" onclick="showPage('booking');selectService('notary')" data-cal-link="bhramhari/notary-services" data-cal-config='{"layout":"month_view"}'>Book Now →</a>
         </div>
       </div>
       <div class="svc-card">
@@ -303,7 +303,7 @@
           <div class="svc-tag">Service 09</div>
           <h3>Mortgage Protection</h3>
           <p>Protect your home and family from unexpected events with mortgage protection strategies and insurance.</p>
-          <a class="svc-book" onclick="showPage('booking');selectService('mortgage')">Book Now →</a>
+          <a class="svc-book" onclick="showPage('booking');selectService('mortgage')" data-cal-link="bhramhari/mortgage-protection" data-cal-config='{"layout":"month_view"}'>Book Now →</a>
         </div>
       </div>
     </div>
@@ -529,18 +529,15 @@
         </div>
         <div class="booking-body">
           <div class="svc-pills">
-            <div class="svc-pill selected" id="pill-insurance" onclick="switchCal('insurance')">🛡️ Insurance Consultation</div>
-            <div class="svc-pill" id="pill-retirement" onclick="switchCal('retirement')">🌅 Retirement Planning</div>
-            <div class="svc-pill" id="pill-estate" onclick="switchCal('estate')">🏛️ Estate Planning</div>
-          </div>
-          <div id="cal-insurance" class="cal-embed-wrap">
-            <div id="cal-insurance-inline" style="width:100%;height:650px;overflow:scroll;"></div>
-          </div>
-          <div id="cal-retirement" class="cal-embed-wrap" style="display:none;">
-            <div id="cal-retirement-inline" style="width:100%;height:650px;overflow:scroll;"></div>
-          </div>
-          <div id="cal-estate" class="cal-embed-wrap" style="display:none;">
-            <div id="cal-estate-inline" style="width:100%;height:650px;overflow:scroll;"></div>
+            <div class="svc-pill selected" id="pill-insurance" onclick="switchCal('insurance')" data-cal-link="bhramhari/insurance-consultation" data-cal-config='{"layout":"month_view"}'>🛡️ Insurance Consultation</div>
+            <div class="svc-pill" id="pill-retirement" onclick="switchCal('retirement')" data-cal-link="bhramhari/retirement-planning" data-cal-config='{"layout":"month_view"}'>🌅 Retirement Planning</div>
+            <div class="svc-pill" id="pill-estate" onclick="switchCal('estate')" data-cal-link="bhramhari/estate-planning" data-cal-config='{"layout":"month_view"}'>🏛️ Estate Planning</div>
+            <div class="svc-pill" id="pill-health" onclick="switchCal('health')" data-cal-link="bhramhari/general-health-insurance" data-cal-config='{"layout":"month_view"}'>🩺 General Health Insurance</div>
+            <div class="svc-pill" id="pill-longterm" onclick="switchCal('longterm')" data-cal-link="bhramhari/long-term-care" data-cal-config='{"layout":"month_view"}'>🧓 Long-Term Care</div>
+            <div class="svc-pill" id="pill-disability" onclick="switchCal('disability')" data-cal-link="bhramhari/disability-coverage" data-cal-config='{"layout":"month_view"}'>♿ Disability Coverage</div>
+            <div class="svc-pill" id="pill-travel" onclick="switchCal('travel')" data-cal-link="bhramhari/travel-insurance" data-cal-config='{"layout":"month_view"}'>✈️ Travel Insurance</div>
+            <div class="svc-pill" id="pill-notary" onclick="switchCal('notary')" data-cal-link="bhramhari/notary-services" data-cal-config='{"layout":"month_view"}'>🖋️ Notary Services</div>
+            <div class="svc-pill" id="pill-mortgage" onclick="switchCal('mortgage')" data-cal-link="bhramhari/mortgage-protection" data-cal-config='{"layout":"month_view"}'>🏠 Mortgage Protection</div>
           </div>
         </div>
       </div>

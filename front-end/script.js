@@ -28,6 +28,15 @@ function openBooking() {
   window.open(calLinks[sel.value], '_blank');
 }
 
+function switchCal(key) {
+  document.querySelectorAll('.svc-pill').forEach(p => p.classList.remove('selected'));
+  document.getElementById('pill-' + key)?.classList.add('selected');
+}
+
+function selectService(key) {
+  switchCal(key);
+}
+
 let starRating = 0;
 function setStars(n) {
   starRating = n;
