@@ -506,10 +506,22 @@
       <p class="section-p" style="max-width:100%;margin-top:16px;">Events are managed via Google Sheets. Add a row to your sheet and click Refresh to update this page.</p>
       <button class="btn-ghost" onclick="loadEventsFromSheets()" style="margin-top:20px;">↻ Refresh Events</button>
     </div>
-    <div class="events-feed" id="events-feed" style="max-width:780px;margin:32px auto 0;">
-      <div class="events-empty">Loading events…</div>
+    <div class="event-calendar" id="event-calendar" style="max-width:760px;margin:32px auto 0;">
+      <div class="event-cal-header">
+        <button class="event-cal-nav" onclick="changeCalendarMonth(-1)" aria-label="Previous month">‹</button>
+        <div class="event-cal-month" id="event-cal-month">Loading…</div>
+        <button class="event-cal-nav" onclick="changeCalendarMonth(1)" aria-label="Next month">›</button>
+      </div>
+      <div class="event-cal-grid" id="event-cal-grid"></div>
     </div>
+    <div class="event-cal-status" id="event-cal-status" style="max-width:760px;margin:16px auto 0;text-align:center;"></div>
   </section>
+  <div class="event-modal-overlay" id="event-modal-overlay" onclick="closeEventModal(event)">
+    <div class="event-modal" onclick="event.stopPropagation()">
+      <button class="event-modal-close" onclick="closeEventModal()" aria-label="Close">×</button>
+      <div id="event-modal-body"></div>
+    </div>
+  </div>
 </div>
 
 <!-- ============ BOOKING PAGE ============ -->

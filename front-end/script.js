@@ -382,55 +382,138 @@ function parseCSVRow(row) {
   return result;
 }
 
+let allEvents = [];
+let calendarMonth = new Date().getMonth();
+let calendarYear = new Date().getFullYear();
+
+function parseEventDate(dateStr) {
+  if (!dateStr) return null;
+  const isoMatch = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (isoMatch) {
+    const [, y, m, d] = isoMatch;
+    return new Date(Number(y), Number(m) - 1, Number(d));
+  }
+  const parsed = new Date(dateStr);
+  return isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function eventTooltipLine(e) {
+  return [e.title, e.time, e.location].filter(Boolean).join(' · ');
+}
+
+function buildEventModalEntryHTML(e) {
+  const formattedDate = e.dateObj ? e.dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : (e.date || '');
+  return `
+    <div class="event-modal-entry">
+      <div class="event-modal-flag">Upcoming Bhramhari Event${e.type ? ` · ${escapeHtml(e.type)}` : ''}</div>
+      <div class="event-modal-title">${escapeHtml(e.title)}</div>
+      <div class="event-modal-meta">
+        ${formattedDate ? `<span><span class="meta-label">Date:</span> ${formattedDate}</span>` : ''}
+        ${e.time ? `<span><span class="meta-label">Time:</span> ${escapeHtml(e.time)}</span>` : ''}
+        ${e.location ? `<span><span class="meta-label">Location:</span> ${escapeHtml(e.location)}</span>` : ''}
+      </div>
+      ${e.description ? `<div class="event-modal-description">${escapeHtml(e.description)}</div>` : ''}
+    </div>`;
+}
+
+function openEventModal(year, month, day) {
+  const dayEvents = allEvents.filter(e => e.dateObj &&
+    e.dateObj.getFullYear() === year && e.dateObj.getMonth() === month && e.dateObj.getDate() === day);
+  if (!dayEvents.length) return;
+  document.getElementById('event-modal-body').innerHTML = dayEvents.map(buildEventModalEntryHTML).join('');
+  document.getElementById('event-modal-overlay').classList.add('open');
+}
+
+function closeEventModal(evt) {
+  if (evt && evt.target !== document.getElementById('event-modal-overlay')) return;
+  document.getElementById('event-modal-overlay').classList.remove('open');
+}
+
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeEventModal();
+});
+
+function changeCalendarMonth(delta) {
+  calendarMonth += delta;
+  if (calendarMonth < 0) { calendarMonth = 11; calendarYear--; }
+  if (calendarMonth > 11) { calendarMonth = 0; calendarYear++; }
+  renderCalendar();
+}
+
+function renderCalendar() {
+  const grid = document.getElementById('event-cal-grid');
+  const monthLabel = document.getElementById('event-cal-month');
+  if (!grid || !monthLabel) return;
+
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  monthLabel.textContent = `${monthNames[calendarMonth]} ${calendarYear}`;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const firstWeekday = new Date(calendarYear, calendarMonth, 1).getDay();
+  const daysInMonth = new Date(calendarYear, calendarMonth + 1, 0).getDate();
+
+  const eventsByDay = {};
+  allEvents.forEach(e => {
+    if (!e.dateObj) return;
+    if (e.dateObj.getMonth() === calendarMonth && e.dateObj.getFullYear() === calendarYear && e.dateObj >= today) {
+      (eventsByDay[e.dateObj.getDate()] = eventsByDay[e.dateObj.getDate()] || []).push(e);
+    }
+  });
+
+  let html = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => `<div class="event-cal-day-name">${d}</div>`).join('');
+  for (let i = 0; i < firstWeekday; i++) html += '<div class="event-cal-day empty"></div>';
+  for (let day = 1; day <= daysInMonth; day++) {
+    const dateObj = new Date(calendarYear, calendarMonth, day);
+    const isToday = dateObj.getTime() === today.getTime();
+    const isPast = dateObj < today;
+    const dayEvents = eventsByDay[day];
+    const classes = ['event-cal-day'];
+    if (isToday) classes.push('today');
+    if (isPast) classes.push('past');
+    if (dayEvents) classes.push('has-events');
+    const tooltip = dayEvents ? ` title="${escapeHtml(dayEvents.map(eventTooltipLine).join('\n'))}"` : '';
+    const onclick = dayEvents ? ` onclick="openEventModal(${calendarYear}, ${calendarMonth}, ${day})"` : '';
+    html += `<div class="${classes.join(' ')}"${tooltip}${onclick}>${day}${dayEvents ? '<span class="event-cal-dot"></span>' : ''}</div>`;
+  }
+  grid.innerHTML = html;
+}
+
 async function loadEventsFromSheets() {
-  const feed = document.getElementById('events-feed');
-  if (!feed) return;
+  const status = document.getElementById('event-cal-status');
+  if (!status) return;
   if (!EVENTS_SHEETS_URL) {
-    feed.innerHTML = '<div class="events-empty">No Google Sheets URL set yet. Add your published CSV URL to <strong>EVENTS_SHEETS_URL</strong> in script.js.</div>';
+    status.textContent = 'No Google Sheets URL set yet. Add your published CSV URL to EVENTS_SHEETS_URL in script.js.';
     return;
   }
-  feed.innerHTML = '<div class="events-empty">Loading events…</div>';
+  status.textContent = 'Loading events…';
   try {
     const res = await fetch(EVENTS_SHEETS_URL);
     const text = await res.text();
     const rows = text.trim().split('\n').slice(1).filter(r => r.trim());
-    if (!rows.length) {
-      feed.innerHTML = '<div class="events-empty">No upcoming events found in the sheet.</div>';
-      return;
-    }
-    feed.innerHTML = '';
-    let shown = 0;
-    rows.forEach(row => {
+    allEvents = rows.map(row => {
       const [title, date, time, location, type, description, link, active] = parseCSVRow(row);
-      if (!title) return;
-      if (active && active.toLowerCase() !== 'true' && active.toLowerCase() !== 'yes') return;
-      shown++;
-      const formattedDate = date ? (() => { try { return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); } catch { return date; } })() : '';
-      const qrSrc = link ? `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(link)}` : '';
-      const card = document.createElement('div');
-      card.className = 'event-card';
-      card.innerHTML = `
-        <div class="event-card-body">
-          <div class="event-card-flag">Upcoming Bhramhari Event${type ? ` · ${escapeHtml(type)}` : ''}</div>
-          <div class="event-card-title">${escapeHtml(title)}</div>
-          <div class="event-card-meta">
-            ${formattedDate ? `<span><span class="meta-label">Date:</span> ${formattedDate}</span>` : ''}
-            ${time ? `<span><span class="meta-label">Time:</span> ${escapeHtml(time)}</span>` : ''}
-            ${location ? `<span><span class="meta-label">Location:</span> ${escapeHtml(location)}</span>` : ''}
-          </div>
-          ${description ? `<div class="event-card-description">${escapeHtml(description)}</div>` : ''}
-          ${qrSrc ? `
-          <div class="event-qr-wrap">
-            <img src="${qrSrc}" alt="QR code for ${escapeHtml(title)}" class="event-qr" />
-            <div class="event-qr-label">Scan to learn more</div>
-          </div>` : ''}
-          <div class="event-badge-row"><span class="event-badge">Bhramhari</span>${type ? `<span class="event-badge">${escapeHtml(type)}</span>` : ''}</div>
-        </div>`;
-      feed.appendChild(card);
-    });
-    if (shown === 0) feed.innerHTML = '<div class="events-empty">No active events right now. Check back soon!</div>';
+      return { title, date, time, location, type, description, link, active, dateObj: parseEventDate(date) };
+    }).filter(e => e.title && (!e.active || ['true', 'yes'].includes(e.active.toLowerCase())));
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const upcoming = allEvents.filter(e => e.dateObj && e.dateObj >= today);
+
+    if (upcoming.length) {
+      const soonest = upcoming.sort((a, b) => a.dateObj - b.dateObj)[0];
+      calendarMonth = soonest.dateObj.getMonth();
+      calendarYear = soonest.dateObj.getFullYear();
+      status.textContent = '';
+    } else {
+      calendarMonth = today.getMonth();
+      calendarYear = today.getFullYear();
+      status.textContent = 'No upcoming events right now. Check back soon!';
+    }
+
+    renderCalendar();
   } catch {
-    feed.innerHTML = '<div class="events-empty">Could not load events. Check that the Sheets URL is published and try Refresh.</div>';
+    status.textContent = 'Could not load events. Check that the Sheets URL is published and try Refresh.';
   }
 }
 
