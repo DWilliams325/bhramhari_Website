@@ -1,0 +1,29 @@
+  <div style="background:var(--navy);padding:80px 48px;text-align:center;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;opacity:0.04;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='80'%3E%3Cpolygon points='35,4 66,20 66,54 35,70 4,54 4,20' fill='none' stroke='%23ffffff' stroke-width='1.5'/%3E%3C/svg%3E&quot;);background-size:70px 80px;"></div>
+    <span class="chip chip-gold" style="position:relative;z-index:2;">Schedule a Session</span>
+    <h1 style="font-family:'Playfair Display',serif;font-size:50px;font-weight:900;color:#fff;margin-top:10px;position:relative;z-index:2;">Book <em style="color:var(--gold);">Online</em></h1>
+    <p style="color:rgba(255,255,255,0.65);font-size:18px;margin-top:14px;position:relative;z-index:2;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.7;">Choose your service, pick a time that works, and Sarita will take it from there.</p>
+  </div>
+  <section class="section">
+    <div class="booking-wrap">
+      <div class="booking-step">
+        <div class="booking-header">
+          <h3>Book a Consultation</h3>
+          <p>Select a service below and choose a time that works for you.</p>
+        </div>
+        <div class="booking-body">
+          <div class="svc-pills">
+            <div class="svc-pill selected" id="pill-insurance" onclick="switchCal('insurance')" data-cal-link="bhramhari/insurance-consultation" data-cal-config='{"layout":"month_view"}'>🛡️ Insurance Consultation</div>
+            <div class="svc-pill" id="pill-retirement" onclick="switchCal('retirement')" data-cal-link="bhramhari/retirement-planning" data-cal-config='{"layout":"month_view"}'>🌅 Retirement Planning</div>
+            <div class="svc-pill" id="pill-estate" onclick="switchCal('estate')" data-cal-link="bhramhari/estate-planning" data-cal-config='{"layout":"month_view"}'>🏛️ Estate Planning</div>
+            <div class="svc-pill" id="pill-health" onclick="switchCal('health')" data-cal-link="bhramhari/general-health-insurance" data-cal-config='{"layout":"month_view"}'>🩺 General Health Insurance</div>
+            <div class="svc-pill" id="pill-longterm" onclick="switchCal('longterm')" data-cal-link="bhramhari/long-term-care" data-cal-config='{"layout":"month_view"}'>🧓 Long-Term Care</div>
+            <div class="svc-pill" id="pill-disability" onclick="switchCal('disability')" data-cal-link="bhramhari/disability-coverage" data-cal-config='{"layout":"month_view"}'>♿ Disability Coverage</div>
+            <div class="svc-pill" id="pill-travel" onclick="switchCal('travel')" data-cal-link="bhramhari/travel-insurance" data-cal-config='{"layout":"month_view"}'>✈️ Travel Insurance</div>
+            <div class="svc-pill" id="pill-notary" onclick="switchCal('notary')" data-cal-link="bhramhari/notary-services" data-cal-config='{"layout":"month_view"}'>🖋️ Notary Services</div>
+            <div class="svc-pill" id="pill-mortgage" onclick="switchCal('mortgage')" data-cal-link="bhramhari/mortgage-protection" data-cal-config='{"layout":"month_view"}'>🏠 Mortgage Protection</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

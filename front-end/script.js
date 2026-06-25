@@ -1,12 +1,3 @@
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  const navEl = document.getElementById('nav-' + id);
-  if (navEl) navEl.classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
 const calLinks = {
   estate:     'https://cal.com/bhramhari/estate-planning',
   insurance:  'https://cal.com/bhramhari/insurance-consultation',
@@ -33,9 +24,10 @@ function switchCal(key) {
   document.getElementById('pill-' + key)?.classList.add('selected');
 }
 
-function selectService(key) {
-  switchCal(key);
-}
+window.addEventListener('DOMContentLoaded', () => {
+  const service = new URLSearchParams(location.search).get('service');
+  if (service && document.getElementById('pill-' + service)) switchCal(service);
+});
 
 let starRating = 0;
 function setStars(n) {

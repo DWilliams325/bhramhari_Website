@@ -1,0 +1,58 @@
+[
+  {
+    "slug": "index",
+    "navId": "home",
+    "content": "home.html",
+    "title": "Bhramhari — Estate Planning, Insurance & Retirement Planning | Aurora, IL",
+    "description": "Bhramhari helps Aurora, IL families with estate planning, insurance, and retirement planning. Book a free consultation with licensed professional Sarita Budithi today."
+  },
+  {
+    "slug": "services",
+    "navId": "services",
+    "content": "services.html",
+    "title": "Our Services — Estate Planning, Insurance & More | Bhramhari",
+    "description": "Explore Bhramhari's financial services: estate planning, insurance consultation, retirement planning, long-term care, disability coverage, and more."
+  },
+  {
+    "slug": "about",
+    "navId": "about",
+    "content": "about.html",
+    "title": "About Sarita Budithi — Licensed Financial Professional | Bhramhari",
+    "description": "Meet Sarita Budithi, a licensed financial professional specializing in estate planning, insurance, and retirement solutions for families in Aurora, IL."
+  },
+  {
+    "slug": "gallery",
+    "navId": "gallery",
+    "content": "gallery.html",
+    "title": "Event Gallery | Bhramhari",
+    "description": "See photos from Bhramhari's recent booths and events showcasing our financial planning services in the community."
+  },
+  {
+    "slug": "events",
+    "navId": "events",
+    "content": "events.html",
+    "title": "Upcoming Events | Bhramhari",
+    "description": "Find out where Bhramhari will be next. View upcoming community events and booths featuring financial planning services."
+  },
+  {
+    "slug": "booking",
+    "navId": "booking",
+    "content": "booking.html",
+    "title": "Book a Consultation | Bhramhari",
+    "description": "Schedule a free consultation with Sarita Budithi for estate planning, insurance, or retirement planning services."
+  },
+  {
+    "slug": "reviews",
+    "navId": "reviews",
+    "content": "reviews.html",
+    "title": "Client Reviews | Bhramhari",
+    "description": "Read what families are saying about their experience working with Sarita Budithi and Bhramhari for financial planning services."
+  },
+  {
+    "slug": "contact",
+    "navId": "contact",
+    "content": "contact.html",
+    "title": "Contact Us | Bhramhari",
+    "description": "Get in touch with Bhramhari for estate planning, insurance, and retirement planning services in Aurora, IL. Call, email, or send a message today."
+  }
+]

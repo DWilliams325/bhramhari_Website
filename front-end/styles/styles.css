@@ -13,7 +13,7 @@
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { font-family: 'DM Sans', sans-serif; color: var(--navy); background: #fff; overflow-x: hidden; }
+body { font-family: 'DM Sans', sans-serif; color: var(--navy); background: #fff; overflow-x: hidden; min-height: 100vh; padding-top: 68px; }
 
 /* ===== NAV ===== */
 nav {
@@ -45,10 +45,6 @@ nav {
   transition: background 0.2s !important;
 }
 .nav-book:hover { background: var(--orange-d) !important; }
-
-/* ===== PAGES ===== */
-.page { display: none; min-height: 100vh; padding-top: 68px; }
-.page.active { display: block; }
 
 /* ===== HOME ===== */
 .hero {

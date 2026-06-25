@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{{TITLE}}</title>
+<meta name="description" content="{{DESCRIPTION}}" />
+<link rel="canonical" href="{{CANONICAL}}" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="{{OG_TITLE}}" />
+<meta property="og:description" content="{{OG_DESCRIPTION}}" />
+<meta property="og:url" content="{{CANONICAL}}" />
+<meta property="og:image" content="{{OG_IMAGE}}" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="{{OG_TITLE}}" />
+<meta name="twitter:description" content="{{OG_DESCRIPTION}}" />
+<meta name="twitter:image" content="{{OG_IMAGE}}" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles/styles.css" />
+<script type="text/javascript">
+  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, [L, namespace, ar[2]])} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+  Cal("init", {origin:"https://app.cal.com"});
+</script>
+</head>
+<body>
+
+<!-- NAV -->
+{{NAV}}
+
+{{CONTENT}}
+
+<!-- FOOTER -->
+{{FOOTER}}
+
+<script src="script.js"></script>
+</body>
+</html>

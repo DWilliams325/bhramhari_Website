@@ -1,0 +1,50 @@
+  <div class="reviews-hero">
+    <div class="reviews-hero-hc"></div>
+    <span class="chip chip-gold" style="position:relative;z-index:2;">Client Reviews</span>
+    <h1 style="font-family:'Playfair Display',serif;font-size:46px;font-weight:900;color:#fff;position:relative;z-index:2;margin-top:10px;">What Clients Say About <em style="color:var(--gold);font-style:normal;">Bhramhari</em></h1>
+    <p style="color:rgba(255,255,255,0.65);font-size:18px;margin-top:12px;position:relative;z-index:2;">Real feedback from real families we've helped.</p>
+    <div class="rating-display">
+      <div class="google-g"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></div>
+      <div class="rating-big">4.9</div>
+      <div class="stars-row">★★★★★</div>
+      <div class="rating-count">Based on client reviews</div>
+    </div>
+  </div>
+  <section class="section">
+    <div style="max-width:1100px;margin:0 auto;">
+      <div style="text-align:center;margin-bottom:48px;">
+        <span class="chip">Client Testimonials</span>
+        <h2 class="section-h">Trusted by <em>Families</em></h2>
+      </div>
+      <div class="review-grid" id="review-grid">
+        <div class="review-card"><div class="reviewer-row"><div class="rev-avatar" style="background:#E8421A;">AM</div><div><div class="rev-name">Anita Mehta</div><div class="rev-date">2 weeks ago</div></div></div><div class="rev-stars">★★★★★</div><p class="rev-text">Sarita is incredibly knowledgeable and patient. She walked our family through every step of estate planning. We feel so much more secure knowing our future is taken care of.</p><div class="rev-verified">✓ Verified Review</div></div>
+        <div class="review-card"><div class="reviewer-row"><div class="rev-avatar" style="background:#1B3A6B;">DP</div><div><div class="rev-name">David Patel</div><div class="rev-date">1 month ago</div></div></div><div class="rev-stars">★★★★★</div><p class="rev-text">I came to Sarita with no idea about insurance options. She simplified everything and helped me find the perfect term plan for my family. Highly recommended!</p><div class="rev-verified">✓ Verified Review</div></div>
+        <div class="review-card"><div class="reviewer-row"><div class="rev-avatar" style="background:#1B6B3A;">KR</div><div><div class="rev-name">Kavitha Reddy</div><div class="rev-date">2 months ago</div></div></div><div class="rev-stars">★★★★★</div><p class="rev-text">Bhramhari helped me start planning for retirement at the right time. Sarita's approach is personalized and thorough — she genuinely cares about your future.</p><div class="rev-verified">✓ Verified Review</div></div>
+        <div class="review-card"><div class="reviewer-row"><div class="rev-avatar" style="background:#7B2D8B;">SN</div><div><div class="rev-name">Suresh Naidu</div><div class="rev-date">3 months ago</div></div></div><div class="rev-stars">★★★★★</div><p class="rev-text">Outstanding service. Sarita took the time to understand our family situation before recommending anything. Completely trustworthy and professional.</p><div class="rev-verified">✓ Verified Review</div></div>
+        <div class="review-card"><div class="reviewer-row"><div class="rev-avatar" style="background:#B8660A;">LM</div><div><div class="rev-name">Latha Murthy</div><div class="rev-date">4 months ago</div></div></div><div class="rev-stars">★★★★★</div><p class="rev-text">The booking process was so easy and the consultation was incredibly helpful. Sarita answered all my questions about permanent insurance clearly and thoroughly.</p><div class="rev-verified">✓ Verified Review</div></div>
+        <div class="review-card"><div class="reviewer-row"><div class="rev-avatar" style="background:#0F6E86;">RK</div><div><div class="rev-name">Ravi Kumar</div><div class="rev-date">5 months ago</div></div></div><div class="rev-stars">★★★★★</div><p class="rev-text">I was hesitant to start financial planning but Sarita made it so approachable. Her passion for helping families shines through in every conversation.</p><div class="rev-verified">✓ Verified Review</div></div>
+      </div>
+    </div>
+  </section>
+  <div class="review-form-section">
+    <div style="max-width:1100px;margin:0 auto;">
+      <div style="text-align:center;margin-bottom:48px;">
+        <span class="chip chip-gold">Share Your Experience</span>
+        <h2 class="section-h" style="color:#fff;margin-top:10px;">Leave a <em style="color:var(--gold);">Review</em></h2>
+        <p style="color:rgba(255,255,255,0.6);font-size:17px;margin:14px auto 0;max-width:500px;line-height:1.7;">Your feedback helps other families find the financial guidance they need.</p>
+      </div>
+      <div class="review-form-wrap">
+        <div class="rev-form-h">How was your experience?</div>
+        <div class="rev-form-sub">Share your Bhramhari story — it only takes a minute.</div>
+        <div class="rev-row">
+          <div class="rev-fld"><label>Full Name</label><input type="text" id="rv-name" placeholder="Your name" /></div>
+          <div class="rev-fld"><label>Email Address</label><input type="email" id="rv-email" placeholder="you@email.com" /></div>
+        </div>
+        <div class="rev-fld"><label>Service Used</label><select id="rv-service"><option value="">Select a service...</option><option>Estate Planning</option><option>Insurance Consultation</option><option>Retirement Planning</option><option>General Health Insurance</option><option>Long-Term Care</option><option>Disability Coverage</option><option>Travel Insurance</option><option>Notary Services</option><option>Mortgage Protection</option><option>General Consultation</option></select></div>
+        <div class="rev-fld"><label>Your Rating</label><div class="star-picker" id="star-picker"><button class="star-pick" onclick="setStars(1)">★</button><button class="star-pick" onclick="setStars(2)">★</button><button class="star-pick" onclick="setStars(3)">★</button><button class="star-pick" onclick="setStars(4)">★</button><button class="star-pick" onclick="setStars(5)">★</button></div></div>
+        <div class="rev-fld"><label>Your Review</label><textarea id="rv-text" placeholder="Tell us about your consultation experience..."></textarea></div>
+        <button class="rev-submit" onclick="submitReview()">Submit My Review ✦</button>
+        <div class="rev-success" id="rv-success">🎉 Thank you! Your review has been submitted. We truly appreciate your feedback!</div>
+      </div>
+    </div>
+  </div>
