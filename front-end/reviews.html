@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preload" as="font" type="font/woff2" href="fonts/playfair-display-latin.woff2?v=1" crossorigin>
 <title>Client Reviews | Bhramhari</title>
 <meta name="description" content="Read what families are saying about their experience working with Sarita Budithi and Bhramhari for financial planning services." />
 <link rel="canonical" href="https://bhramhari.com/reviews.html" />
@@ -15,12 +16,26 @@
 <meta name="twitter:title" content="Client Reviews | Bhramhari" />
 <meta name="twitter:description" content="Read what families are saying about their experience working with Sarita Budithi and Bhramhari for financial planning services." />
 <meta name="twitter:image" content="https://bhramhari.com/assets/BHRAMHARI_Logo.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles/styles.css" />
+<style>
+@font-face { font-family: 'DM Sans'; font-style: normal; font-weight: 300 700; font-display: swap; src: url('fonts/dm-sans-latin.woff2?v=1') format('woff2'); }
+@font-face { font-family: 'Playfair Display'; font-style: normal; font-weight: 700 900; font-display: swap; src: url('fonts/playfair-display-latin.woff2?v=1') format('woff2'); }
+</style>
+<link rel="stylesheet" href="styles/styles.css?v=1" />
 <script type="text/javascript">
-  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, [L, namespace, ar[2]])} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, [L, namespace, ar[2]])} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
   Cal("init", {origin:"https://app.cal.com"});
+
+  function loadCalEmbed() {
+    if (window.__calEmbedLoaded) return;
+    window.__calEmbedLoaded = true;
+    const s = document.createElement('script');
+    s.src = "https://app.cal.com/embed/embed.js";
+    document.head.appendChild(s);
+  }
+  window.addEventListener('load', function () {
+    if ('requestIdleCallback' in window) requestIdleCallback(loadCalEmbed, { timeout: 3000 });
+    else setTimeout(loadCalEmbed, 1500);
+  });
 </script>
 </head>
 <body>
@@ -28,7 +43,10 @@
 <!-- NAV -->
 <nav>
   <a href="index.html" class="nav-brand">
-    <img src="assets/BHRAMHARI_Logo.png" alt="Bhramhari logo" class="nav-logo" style="width:42px;height:42px;object-fit:contain;border-radius:6px;" />
+    <picture>
+      <source srcset="assets/BHRAMHARI_Logo.webp?v=1" type="image/webp" />
+      <img src="assets/BHRAMHARI_Logo.png?v=1" alt="Bhramhari logo" class="nav-logo" width="42" height="42" loading="eager" decoding="async" />
+    </picture>
     <div>
       <div class="nav-name">Bhramhari</div>
       <div class="nav-sub">Building Bright Futures</div>

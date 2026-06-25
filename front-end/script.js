@@ -118,7 +118,7 @@ function createGalleryCard(item) {
       <button class="gallery-card-edit" type="button" data-id="${item.id}">Edit</button>
       <button class="gallery-card-remove" type="button" data-id="${item.id}">Remove</button>
     </div>
-    <img src="${item.src}" alt="${escapeHtml(item.title) || 'Bhramhari booth photo'}" />
+    <img src="${item.src}" alt="${escapeHtml(item.title) || 'Bhramhari booth photo'}" loading="lazy" decoding="async" />
     <div class="gallery-card-meta">
       <div class="gallery-card-view ${locked ? '' : 'hidden'}">
         <div class="gallery-card-view-row">
@@ -324,7 +324,7 @@ function addUpcomingEvent() {
   const flyerFile = flyerInput.files[0];
   const renderCard = flyerSrc => {
     card.innerHTML = `
-      ${flyerSrc ? `<img src="${flyerSrc}" alt="${name} flyer" />` : ''}
+      ${flyerSrc ? `<img src="${flyerSrc}" alt="${name} flyer" loading="lazy" decoding="async" />` : ''}
       <div class="event-card-body">
         <div class="event-card-flag">Upcoming Bhramhari Event</div>
         <div class="event-card-title">${name}</div>
