@@ -11,7 +11,7 @@ const navPartial = fs.readFileSync(path.join(root, 'partials', 'nav.html'), 'utf
 const footerPartial = fs.readFileSync(path.join(root, 'partials', 'footer.html'), 'utf8');
 const pages = JSON.parse(fs.readFileSync(path.join(root, 'pages.json'), 'utf8'));
 
-const navIds = ['home', 'services', 'about', 'gallery', 'events', 'reviews', 'contact', 'booking'];
+const navIds = ['home', 'services', 'about', 'events', 'contact', 'booking'];
 
 function escapeAttr(str) {
   return String(str).replace(/"/g, '&quot;');

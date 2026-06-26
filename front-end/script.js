@@ -68,10 +68,6 @@ function sendContact() {
   document.getElementById('cf-msg').value = '';
 }
 
-const galleryStorageKey = 'bhramhariGalleryItems';
-const useBackendGalleryStorage = false; // flip to true when backend storage is available
-let pendingGalleryFiles = [];
-
 function escapeHtml(str) {
   return String(str || '')
     .replace(/&/g, '&amp;')
@@ -79,231 +75,6 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
-}
-
-function getStoredGalleryItems() {
-  const json = localStorage.getItem(galleryStorageKey);
-  if (!json) return [];
-  try { return JSON.parse(json); } catch (e) { return []; }
-}
-
-function saveGalleryItems(items) {
-  localStorage.setItem(galleryStorageKey, JSON.stringify(items));
-}
-
-async function loadGalleryItems() {
-  if (useBackendGalleryStorage) {
-    // TODO: replace with your backend GET endpoint when ready
-    return getStoredGalleryItems();
-  }
-  return getStoredGalleryItems();
-}
-
-async function storeGalleryItems(items) {
-  if (useBackendGalleryStorage) {
-    // TODO: replace with your backend POST/PUT endpoint when ready
-    return saveGalleryItems(items);
-  }
-  return saveGalleryItems(items);
-}
-
-function createGalleryCard(item) {
-  const card = document.createElement('div');
-  card.className = 'gallery-card';
-  card.style.position = 'relative';
-  const locked = Boolean(item.locked);
-  card.innerHTML = `
-    <div class="gallery-card-actions">
-      <button class="gallery-card-save" type="button" data-id="${item.id}">Save</button>
-      <button class="gallery-card-edit" type="button" data-id="${item.id}">Edit</button>
-      <button class="gallery-card-remove" type="button" data-id="${item.id}">Remove</button>
-    </div>
-    <img src="${item.src}" alt="${escapeHtml(item.title) || 'Bhramhari booth photo'}" loading="lazy" decoding="async" />
-    <div class="gallery-card-meta">
-      <div class="gallery-card-view ${locked ? '' : 'hidden'}">
-        <div class="gallery-card-view-row">
-          <span class="gallery-card-view-label">Event Name</span>
-          <span class="gallery-card-view-value">${escapeHtml(item.eventName || 'Bhramhari Event')}</span>
-        </div>
-        <div class="gallery-card-view-row">
-          <span class="gallery-card-view-label">Location</span>
-          <span class="gallery-card-view-value">${escapeHtml(item.location || 'Aurora, IL')}</span>
-        </div>
-        <div class="gallery-card-view-row">
-          <span class="gallery-card-view-label">Title</span>
-          <span class="gallery-card-view-value">${escapeHtml(item.title || 'Bhramhari Booth Display')}</span>
-        </div>
-        <div class="gallery-card-view-description">${escapeHtml(item.description || 'Highlight the Bhramhari brand display, booth setup, or event location.')}</div>
-      </div>
-      <div class="gallery-card-editable ${locked ? 'hidden' : ''}">
-        <label class="gallery-card-label">Event Name</label>
-        <input class="gallery-card-event" type="text" value="${escapeHtml(item.eventName || 'Bhramhari Event')}" placeholder="Edit event name" ${locked ? 'disabled' : ''} />
-        <label class="gallery-card-label">Location</label>
-        <input class="gallery-card-location" type="text" value="${escapeHtml(item.location || 'Aurora, IL')}" placeholder="Edit location" ${locked ? 'disabled' : ''} />
-        <label class="gallery-card-label">Photo Title</label>
-        <input class="gallery-card-title" type="text" value="${escapeHtml(item.title || 'Bhramhari Booth Display')}" placeholder="Add a Bhramhari title" ${locked ? 'disabled' : ''} />
-        <label class="gallery-card-label">Description</label>
-        <textarea class="gallery-card-description" placeholder="Describe this booth or event setup" ${locked ? 'disabled' : ''}>${escapeHtml(item.description || 'Highlight the Bhramhari brand display, booth setup, or event location.')}</textarea>
-      </div>
-    </div>
-  `;
-
-  const eventInput = card.querySelector('.gallery-card-event');
-  const locationInput = card.querySelector('.gallery-card-location');
-  const titleInput = card.querySelector('.gallery-card-title');
-  const descTextarea = card.querySelector('.gallery-card-description');
-  const saveBtn = card.querySelector('.gallery-card-save');
-  const removeBtn = card.querySelector('.gallery-card-remove');
-  const editBtn = card.querySelector('.gallery-card-edit');
-
-  const viewSection = card.querySelector('.gallery-card-view');
-  const editSection = card.querySelector('.gallery-card-editable');
-
-  const updateCardState = (lockedState) => {
-    if (eventInput) eventInput.disabled = lockedState;
-    if (locationInput) locationInput.disabled = lockedState;
-    if (titleInput) titleInput.disabled = lockedState;
-    if (descTextarea) descTextarea.disabled = lockedState;
-    if (saveBtn) {
-      saveBtn.textContent = lockedState ? 'Saved' : 'Save';
-      saveBtn.disabled = lockedState;
-      saveBtn.classList.toggle('gallery-card-saved', lockedState);
-    }
-    if (editBtn) {
-      editBtn.disabled = !lockedState;
-    }
-    if (viewSection) viewSection.classList.toggle('hidden', !lockedState);
-    if (editSection) editSection.classList.toggle('hidden', lockedState);
-  };
-
-  const saveCard = () => {
-    const items = getStoredGalleryItems();
-    const target = items.find(i => i.id === item.id);
-    if (!target) return;
-    target.eventName = eventInput?.value || '';
-    target.location = locationInput?.value || '';
-    target.title = titleInput?.value || '';
-    target.description = descTextarea?.value || '';
-    target.locked = true;
-    storeGalleryItems(items);
-    if (viewSection) {
-      viewSection.querySelector('.gallery-card-view-row:nth-child(1) .gallery-card-view-value').textContent = target.eventName || 'Bhramhari Event';
-      viewSection.querySelector('.gallery-card-view-row:nth-child(2) .gallery-card-view-value').textContent = target.location || 'Aurora, IL';
-      viewSection.querySelector('.gallery-card-view-row:nth-child(3) .gallery-card-view-value').textContent = target.title || 'Bhramhari Booth Display';
-      viewSection.querySelector('.gallery-card-view-description').textContent = target.description || 'Highlight the Bhramhari brand display, booth setup, or event location.';
-    }
-    updateCardState(true);
-  };
-
-  const editCard = () => {
-    const items = getStoredGalleryItems();
-    const target = items.find(i => i.id === item.id);
-    if (!target) return;
-    target.locked = false;
-    storeGalleryItems(items);
-    updateCardState(false);
-    const firstField = eventInput || locationInput || titleInput;
-    if (firstField) {
-      firstField.focus();
-      if (firstField.select) firstField.select();
-    }
-  };
-
-  updateCardState(locked);
-
-  saveBtn?.addEventListener('click', saveCard);
-  removeBtn?.addEventListener('click', () => removeGalleryItem(item.id));
-  editBtn?.addEventListener('click', editCard);
-  return card;
-}
-
-async function renderGalleryItems() {
-  const grid = document.getElementById('gallery-grid');
-  const empty = document.getElementById('gallery-empty');
-  if (!grid) return;
-
-  const items = await loadGalleryItems();
-  grid.innerHTML = '';
-
-  if (!items.length) {
-    if (empty) {
-      empty.style.display = 'block';
-      grid.appendChild(empty);
-    }
-    return;
-  }
-
-  items.forEach(item => {
-    grid.appendChild(createGalleryCard(item));
-  });
-}
-
-function updateGalleryStatus() {
-  const status = document.getElementById('gallery-status');
-  if (!status) return;
-  if (!pendingGalleryFiles.length) {
-    status.textContent = 'Choose one or more photos and add Bhramhari-friendly captions, event name, and location, then click Save.';
-  } else {
-    status.textContent = `${pendingGalleryFiles.length} photo(s) selected. Add your details and press Save to enter them into the gallery.`;
-  }
-}
-
-window.addEventListener('DOMContentLoaded', () => renderGalleryItems());
-
-function handleGalleryUpload(event) {
-  pendingGalleryFiles = Array.from(event.target.files).filter(file => file.type.startsWith('image/'));
-  updateGalleryStatus();
-}
-
-function fileToDataURL(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = () => reject(new Error('Failed to read file'));
-    reader.readAsDataURL(file);
-  });
-}
-
-async function saveGalleryEntry() {
-  if (!pendingGalleryFiles.length) {
-    alert('Please choose at least one photo before saving.');
-    return;
-  }
-
-  const title = document.getElementById('gallery-title').value.trim();
-  const eventName = document.getElementById('gallery-event').value.trim();
-  const location = document.getElementById('gallery-location').value.trim();
-  const description = document.getElementById('gallery-description').value.trim();
-  const storedItems = await loadGalleryItems();
-
-  const savedItems = await Promise.all(pendingGalleryFiles.map(async file => {
-    return {
-      id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
-      src: await fileToDataURL(file),
-      title: title || 'Bhramhari Booth Display',
-      description: description || 'Highlight the Bhramhari brand display, booth setup, or event location.',
-      eventName: eventName || 'Bhramhari Event',
-      location: location || 'Aurora, IL',
-      locked: true,
-    };
-  }));
-
-  const allItems = [...savedItems, ...storedItems];
-  await storeGalleryItems(allItems);
-  pendingGalleryFiles = [];
-  document.getElementById('gallery-files').value = '';
-  document.getElementById('gallery-title').value = '';
-  document.getElementById('gallery-event').value = '';
-  document.getElementById('gallery-location').value = '';
-  document.getElementById('gallery-description').value = '';
-  updateGalleryStatus();
-  renderGalleryItems();
-}
-
-function removeGalleryItem(itemId) {
-  const items = getStoredGalleryItems().filter(item => item.id !== itemId);
-  storeGalleryItems(items);
-  renderGalleryItems();
 }
 
 function addUpcomingEvent() {
@@ -510,6 +281,131 @@ async function loadEventsFromSheets() {
 }
 
 window.addEventListener('DOMContentLoaded', () => loadEventsFromSheets());
+
+function switchCalcTab(key) {
+  document.querySelectorAll('.calc-tab').forEach(t => t.classList.remove('selected'));
+  document.getElementById('calc-tab-' + key)?.classList.add('selected');
+  document.querySelectorAll('.calc-panel').forEach(p => p.classList.add('hidden'));
+  document.getElementById('calc-panel-' + key)?.classList.remove('hidden');
+}
+
+function formatCurrency(n) {
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+
+function calculateInsurance() {
+  const age = parseFloat(document.getElementById('ins-age').value);
+  const income = parseFloat(document.getElementById('ins-income').value);
+  const debt = parseFloat(document.getElementById('ins-debt').value) || 0;
+  const dependents = parseFloat(document.getElementById('ins-dependents').value) || 0;
+  const savings = parseFloat(document.getElementById('ins-savings').value) || 0;
+  const result = document.getElementById('calc-result-insurance');
+
+  if (!age || age < 18 || !income || income <= 0) {
+    result.innerHTML = '<p class="calc-error">Please enter a valid age and annual income.</p>';
+    return;
+  }
+
+  let multiplier;
+  if (age < 35) multiplier = 15;
+  else if (age < 45) multiplier = 12;
+  else if (age < 55) multiplier = 10;
+  else if (age < 65) multiplier = 7;
+  else multiplier = 5;
+
+  const incomeReplacement = income * multiplier;
+  const educationFund = dependents * 25000;
+  const grossNeed = incomeReplacement + debt + educationFund;
+  const coverage = Math.max(0, grossNeed - savings);
+
+  const termOptions = [10, 15, 20, 25, 30];
+  const idealTerm = Math.max(10, Math.min(30, 65 - age));
+  const suggestedTerm = termOptions.reduce((closest, t) =>
+    Math.abs(t - idealTerm) < Math.abs(closest - idealTerm) ? t : closest, termOptions[0]);
+  const pct = n => Math.round((n / grossNeed) * 100);
+
+  result.innerHTML = `
+    <div class="calc-result-grid">
+      <div class="calc-result-item">
+        <div class="calc-result-num">${formatCurrency(coverage)}</div>
+        <div class="calc-result-label">Estimated Coverage Need</div>
+      </div>
+      <div class="calc-result-item">
+        <div class="calc-result-num">${suggestedTerm}-Yr</div>
+        <div class="calc-result-label">Suggested Term Length</div>
+      </div>
+    </div>
+    <div class="calc-bar">
+      <div class="calc-bar-seg" style="width:${pct(incomeReplacement)}%;background:var(--orange);"></div>
+      <div class="calc-bar-seg" style="width:${pct(debt)}%;background:var(--navy);"></div>
+      <div class="calc-bar-seg" style="width:${pct(educationFund)}%;background:var(--gold);"></div>
+    </div>
+    <div class="calc-bar-legend">
+      <span><span class="calc-bar-dot" style="background:var(--orange);"></span>Income replacement (${formatCurrency(incomeReplacement)})</span>
+      <span><span class="calc-bar-dot" style="background:var(--navy);"></span>Debt (${formatCurrency(debt)})</span>
+      <span><span class="calc-bar-dot" style="background:var(--gold);"></span>Education fund (${formatCurrency(educationFund)})</span>
+    </div>
+    <p class="calc-result-breakdown">Based on ${multiplier}× income replacement for your age, plus debt and education costs, minus ${formatCurrency(savings)} in current savings and existing coverage. A ${suggestedTerm}-year term policy would typically keep coverage active until your dependents are financially independent.</p>
+    <a class="btn-fill calc-cta" href="booking.html?service=insurance" data-cal-link="bhramhari/insurance-consultation" data-cal-config='{"layout":"month_view"}'>Discuss My Coverage →</a>
+  `;
+}
+
+function calculateRetirement() {
+  const age = parseFloat(document.getElementById('ret-age').value);
+  const retireAge = parseFloat(document.getElementById('ret-retire-age').value);
+  const savings = parseFloat(document.getElementById('ret-savings').value) || 0;
+  const contribution = parseFloat(document.getElementById('ret-contribution').value) || 0;
+  const rate = parseFloat(document.getElementById('ret-return').value) / 100;
+  const result = document.getElementById('calc-result-retirement');
+
+  if (!age || age < 18 || !retireAge || retireAge <= age) {
+    result.innerHTML = '<p class="calc-error">Please enter a valid current age and a retirement age greater than your current age.</p>';
+    return;
+  }
+
+  const months = (retireAge - age) * 12;
+  const monthlyRate = rate / 12;
+  const futureValue = monthlyRate > 0
+    ? savings * Math.pow(1 + monthlyRate, months) + contribution * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate)
+    : savings + contribution * months;
+  const monthlyIncome = (futureValue * 0.04) / 12;
+  const totalContributed = contribution * months;
+  const totalPrincipal = savings + totalContributed;
+  const growth = Math.max(0, futureValue - totalPrincipal);
+  const principalPct = futureValue > 0 ? Math.min(100, Math.round((totalPrincipal / futureValue) * 100)) : 100;
+  const growthPct = 100 - principalPct;
+
+  result.innerHTML = `
+    <div class="calc-result-grid">
+      <div class="calc-result-item">
+        <div class="calc-result-num">${formatCurrency(futureValue)}</div>
+        <div class="calc-result-label">Projected Savings at Age ${retireAge}</div>
+      </div>
+      <div class="calc-result-item">
+        <div class="calc-result-num">${formatCurrency(monthlyIncome)}</div>
+        <div class="calc-result-label">Est. Monthly Retirement Income</div>
+      </div>
+      <div class="calc-result-item">
+        <div class="calc-result-num">${formatCurrency(totalContributed)}</div>
+        <div class="calc-result-label">Total You'll Contribute</div>
+      </div>
+      <div class="calc-result-item">
+        <div class="calc-result-num">${formatCurrency(growth)}</div>
+        <div class="calc-result-label">Growth From Compounding</div>
+      </div>
+    </div>
+    <div class="calc-bar">
+      <div class="calc-bar-seg" style="width:${principalPct}%;background:var(--navy);"></div>
+      <div class="calc-bar-seg" style="width:${growthPct}%;background:var(--gold);"></div>
+    </div>
+    <div class="calc-bar-legend">
+      <span><span class="calc-bar-dot" style="background:var(--navy);"></span>Your contributions (${principalPct}%)</span>
+      <span><span class="calc-bar-dot" style="background:var(--gold);"></span>Investment growth (${growthPct}%)</span>
+    </div>
+    <p class="calc-result-breakdown">Assumes a ${(rate * 100).toFixed(0)}% average annual return over ${retireAge - age} years. Monthly income is estimated using the 4% withdrawal rule.</p>
+    <a class="btn-fill calc-cta" href="booking.html?service=retirement" data-cal-link="bhramhari/retirement-planning" data-cal-config='{"layout":"month_view"}'>Plan My Retirement →</a>
+  `;
+}
 
 function signUpEmail() {
   const val = document.getElementById('email-input').value.trim();

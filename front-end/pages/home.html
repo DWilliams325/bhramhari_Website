@@ -134,6 +134,56 @@
     </div>
   </section>
 
+  <section class="section" id="calculator">
+    <div style="text-align:center;">
+      <span class="chip">Free Planning Tool</span>
+      <h2 class="section-h">Estimate Your <em>Coverage &amp; Plans</em></h2>
+      <p class="section-p" style="margin:14px auto 0;">Answer a few quick questions to see a personalized estimate — then book a free consultation with Sarita to make it official.</p>
+    </div>
+
+    <div class="calc-card">
+      <div class="calc-tabs">
+        <button type="button" class="calc-tab selected" id="calc-tab-insurance" onclick="switchCalcTab('insurance')">🛡️ Life Insurance Coverage</button>
+        <button type="button" class="calc-tab" id="calc-tab-retirement" onclick="switchCalcTab('retirement')">🌅 Retirement Savings</button>
+      </div>
+
+      <div class="calc-panel" id="calc-panel-insurance">
+        <p class="calc-panel-intro">Estimate how much life insurance coverage your family may need to stay financially protected.</p>
+        <div class="calc-grid">
+          <div class="fld"><label>Your Age</label><input type="number" id="ins-age" min="18" max="100" placeholder="e.g. 35" /></div>
+          <div class="fld"><label>Annual Income ($)</label><input type="number" id="ins-income" min="0" placeholder="e.g. 75000" /></div>
+          <div class="fld"><label>Outstanding Debt ($)</label><input type="number" id="ins-debt" min="0" placeholder="Mortgage, loans, etc." /></div>
+          <div class="fld"><label>Number of Dependents</label><input type="number" id="ins-dependents" min="0" placeholder="e.g. 2" /></div>
+          <div class="fld full"><label>Current Savings &amp; Existing Coverage ($)</label><input type="number" id="ins-savings" min="0" placeholder="e.g. 20000" /></div>
+        </div>
+        <button type="button" class="btn-fill calc-btn" onclick="calculateInsurance()">Calculate My Coverage →</button>
+        <div class="calc-result" id="calc-result-insurance"></div>
+      </div>
+
+      <div class="calc-panel hidden" id="calc-panel-retirement">
+        <p class="calc-panel-intro">Project how your retirement savings could grow between now and the day you retire.</p>
+        <div class="calc-grid">
+          <div class="fld"><label>Current Age</label><input type="number" id="ret-age" min="18" max="100" placeholder="e.g. 35" /></div>
+          <div class="fld"><label>Planned Retirement Age</label><input type="number" id="ret-retire-age" min="19" max="100" placeholder="e.g. 65" /></div>
+          <div class="fld"><label>Current Savings ($)</label><input type="number" id="ret-savings" min="0" placeholder="e.g. 25000" /></div>
+          <div class="fld"><label>Monthly Contribution ($)</label><input type="number" id="ret-contribution" min="0" placeholder="e.g. 400" /></div>
+          <div class="fld full">
+            <label>Expected Annual Return</label>
+            <select id="ret-return">
+              <option value="4">Conservative — 4%</option>
+              <option value="6" selected>Moderate — 6%</option>
+              <option value="8">Growth — 8%</option>
+            </select>
+          </div>
+        </div>
+        <button type="button" class="btn-fill calc-btn" onclick="calculateRetirement()">Project My Savings →</button>
+        <div class="calc-result" id="calc-result-retirement"></div>
+      </div>
+
+      <p class="calc-disclaimer">This tool provides a simplified, educational estimate only — it is not financial, insurance, or tax advice. Book a free consultation for a personalized plan.</p>
+    </div>
+  </section>
+
   <section class="section section-alt" style="padding:80px 48px;">
     <div style="max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;">
       <div>
