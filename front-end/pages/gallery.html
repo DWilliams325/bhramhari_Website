@@ -1,0 +1,41 @@
+  <div style="background:var(--navy);padding:80px 48px;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;opacity:0.04;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='80'%3E%3Cpolygon points='35,4 66,20 66,54 35,70 4,54 4,20' fill='none' stroke='%23ffffff' stroke-width='1.5'/%3E%3C/svg%3E&quot;);background-size:70px 80px;"></div>
+    <span class="chip chip-gold" style="position:relative;z-index:2;">Community Photos</span>
+    <h1 style="font-family:'Playfair Display',serif;font-size:50px;font-weight:900;color:#fff;margin-top:10px;position:relative;z-index:2;">Photo <em style="color:var(--gold);">Gallery</em></h1>
+    <p style="color:rgba(255,255,255,0.65);font-size:18px;margin-top:14px;position:relative;z-index:2;max-width:560px;line-height:1.7;">Share a photo from a Bhramhari event, or browse photos shared by others. Submissions are reviewed before they appear here.</p>
+  </div>
+
+  <div id="gallery-app">
+    <section class="section">
+      <div style="max-width:780px;margin:0 auto;text-align:center;">
+        <span class="chip">Share a Photo</span>
+        <h2 class="section-h" style="margin-top:10px;">Add Your <em>Photo</em></h2>
+        <p class="section-p" style="max-width:100%;margin-top:16px;">Upload a JPG, PNG, or WEBP image (max 5MB). Your name and a caption are optional. Photos are reviewed before appearing in the public gallery below.</p>
+      </div>
+      <div class="gallery-upload-card" style="max-width:560px;margin:32px auto 0;">
+        <div class="cf-body" style="grid-template-columns:1fr;">
+          <div class="gallery-hp" aria-hidden="true">
+            <label for="gallery-hp-field">Company</label>
+            <input type="text" id="gallery-hp-field" name="company" tabindex="-1" autocomplete="off" />
+          </div>
+          <div class="cf-fld full"><label>Photo</label><input type="file" id="gallery-file" accept="image/jpeg,image/png,image/webp" /></div>
+          <div class="cf-fld full"><label>Your Name (optional)</label><input type="text" id="gallery-name" placeholder="Your name" /></div>
+          <div class="cf-fld full"><label>Caption (optional)</label><textarea id="gallery-caption" placeholder="Say something about this photo…"></textarea></div>
+          <div class="calc-error" id="gallery-upload-error" style="display:none;"></div>
+          <button class="cf-submit" id="gallery-submit-btn" onclick="uploadGalleryPhoto()">Submit Photo →</button>
+          <div class="cf-ok" id="gallery-upload-ok">✓ Thanks! Your photo has been submitted and is awaiting review.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0;">
+      <div style="max-width:780px;margin:0 auto;text-align:center;">
+        <span class="chip">Gallery</span>
+        <h2 class="section-h" style="margin-top:10px;">Shared By <em>Our Community</em></h2>
+      </div>
+      <div class="gallery-grid" id="gallery-grid"></div>
+      <p class="gallery-empty" id="gallery-empty" style="text-align:center;color:var(--gray);margin-top:24px;display:none;">No photos yet — be the first to share one above!</p>
+    </section>
+  </div>
+
+  <script src="gallery-config.js"></script>

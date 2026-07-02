@@ -11,7 +11,7 @@ const navPartial = fs.readFileSync(path.join(root, 'partials', 'nav.html'), 'utf
 const footerPartial = fs.readFileSync(path.join(root, 'partials', 'footer.html'), 'utf8');
 const pages = JSON.parse(fs.readFileSync(path.join(root, 'pages.json'), 'utf8'));
 
-const navIds = ['home', 'services', 'about', 'events', 'contact', 'booking'];
+const navIds = ['home', 'services', 'about', 'events', 'contact', 'booking', 'gallery'];
 
 function escapeAttr(str) {
   return String(str).replace(/"/g, '&quot;');
@@ -37,6 +37,7 @@ for (const page of pages) {
     .replace(/{{OG_DESCRIPTION}}/g, escapeAttr(page.description))
     .replace(/{{OG_IMAGE}}/g, escapeAttr(ogImage))
     .replace(/{{CANONICAL}}/g, escapeAttr(canonicalUrl))
+    .replace('{{ROBOTS}}', page.robotsMeta || '')
     .replace('{{NAV}}', renderNav(page.navId))
     .replace('{{CONTENT}}', content)
     .replace('{{FOOTER}}', footerPartial);

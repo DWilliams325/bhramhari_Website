@@ -407,6 +407,231 @@ function calculateRetirement() {
   `;
 }
 
+// ---- Photo gallery (Supabase-backed) ----
+// Loads the Supabase SDK only on pages that actually need it (gallery.html/admin.html),
+// detected via the presence of #gallery-app / #admin-app, so the other pages never
+// make this network request.
+function loadSupabaseSdk() {
+  if (window.__supabaseSdkLoaded) return;
+  window.__supabaseSdkLoaded = true;
+  const s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+  s.onload = function () {
+    if (window.initGalleryPage) initGalleryPage();
+    if (window.initAdminPage) initAdminPage();
+  };
+  document.head.appendChild(s);
+}
+window.addEventListener('load', function () {
+  if (!document.getElementById('gallery-app') && !document.getElementById('admin-app')) return;
+  if ('requestIdleCallback' in window) requestIdleCallback(loadSupabaseSdk, { timeout: 3000 });
+  else setTimeout(loadSupabaseSdk, 1500);
+});
+
+let _galleryClient = null;
+function getGalleryClient() {
+  if (!_galleryClient) {
+    _galleryClient = window.supabase.createClient(window.GALLERY_SUPABASE_URL, window.GALLERY_SUPABASE_ANON_KEY);
+  }
+  return _galleryClient;
+}
+
+const GALLERY_BUCKET = 'gallery-photos';
+const GALLERY_MAX_BYTES = 5 * 1024 * 1024;
+const GALLERY_ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+
+function showGalleryError(msg) {
+  const el = document.getElementById('gallery-upload-error');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function galleryCard(photo) {
+  const name = photo.uploader_name ? escapeHtml(photo.uploader_name) : '';
+  const caption = photo.caption ? escapeHtml(photo.caption) : '';
+  return `
+    <div class="gallery-card">
+      <img src="${photo.image_url}" alt="${name ? `Photo by ${name}` : 'Community photo'}" loading="lazy" decoding="async" />
+      ${(name || caption) ? `<div class="gallery-card-body">${caption ? `<p class="gallery-card-caption">${caption}</p>` : ''}${name ? `<p class="gallery-card-name">— ${name}</p>` : ''}</div>` : ''}
+    </div>`;
+}
+
+async function loadApprovedPhotos() {
+  const grid = document.getElementById('gallery-grid');
+  const empty = document.getElementById('gallery-empty');
+  if (!grid) return;
+  const { data, error } = await getGalleryClient()
+    .from('photos')
+    .select('*')
+    .eq('approved', true)
+    .order('created_at', { ascending: false });
+  if (error) return;
+  if (!data || !data.length) {
+    if (empty) empty.style.display = 'block';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+  grid.innerHTML = data.map(galleryCard).join('');
+}
+
+function initGalleryPage() {
+  loadApprovedPhotos();
+}
+window.initGalleryPage = initGalleryPage;
+
+async function uploadGalleryPhoto() {
+  const hp = document.getElementById('gallery-hp-field');
+  if (hp && hp.value) return; // honeypot tripped — silently ignore
+
+  const errorEl = document.getElementById('gallery-upload-error');
+  const okEl = document.getElementById('gallery-upload-ok');
+  const btn = document.getElementById('gallery-submit-btn');
+  errorEl.style.display = 'none';
+  okEl.style.display = 'none';
+
+  const fileInput = document.getElementById('gallery-file');
+  const file = fileInput.files[0];
+  const name = document.getElementById('gallery-name').value.trim();
+  const caption = document.getElementById('gallery-caption').value.trim();
+
+  if (!file) { showGalleryError('Please choose a photo to upload.'); return; }
+  if (!GALLERY_ALLOWED_TYPES.includes(file.type)) { showGalleryError('Please upload a JPG, PNG, or WEBP image.'); return; }
+  if (file.size > GALLERY_MAX_BYTES) { showGalleryError('Image must be under 5MB.'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Uploading…';
+
+  const client = getGalleryClient();
+  const ext = file.name.split('.').pop().toLowerCase();
+  const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+  const { error: uploadError } = await client.storage.from(GALLERY_BUCKET).upload(path, file);
+  if (uploadError) {
+    showGalleryError('Upload failed. Please try again.');
+    btn.disabled = false;
+    btn.textContent = 'Submit Photo →';
+    return;
+  }
+
+  const { data: urlData } = client.storage.from(GALLERY_BUCKET).getPublicUrl(path);
+  const { error: insertError } = await client.from('photos').insert({
+    image_url: urlData.publicUrl,
+    storage_path: path,
+    uploader_name: name || null,
+    caption: caption || null,
+  });
+
+  if (insertError) {
+    await client.storage.from(GALLERY_BUCKET).remove([path]);
+    showGalleryError('Something went wrong submitting your photo. Please try again.');
+    btn.disabled = false;
+    btn.textContent = 'Submit Photo →';
+    return;
+  }
+
+  fileInput.value = '';
+  document.getElementById('gallery-name').value = '';
+  document.getElementById('gallery-caption').value = '';
+  okEl.style.display = 'block';
+  btn.disabled = false;
+  btn.textContent = 'Submit Photo →';
+}
+
+// ---- Admin moderation dashboard ----
+function showAdminError(msg) {
+  const el = document.getElementById('admin-login-error');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function adminPendingCard(photo) {
+  const name = photo.uploader_name ? escapeHtml(photo.uploader_name) : '';
+  const caption = photo.caption ? escapeHtml(photo.caption) : '';
+  return `
+    <div class="admin-pending-card" id="admin-card-${photo.id}">
+      <img src="${photo.image_url}" alt="Pending photo" loading="lazy" decoding="async" />
+      <div class="admin-pending-body">
+        ${caption ? `<p class="gallery-card-caption">${caption}</p>` : ''}
+        ${name ? `<p class="gallery-card-name">— ${name}</p>` : ''}
+        <div class="admin-pending-actions">
+          <button class="btn-fill" onclick="approvePhoto('${photo.id}')">Approve</button>
+          <button class="btn-reject" onclick="rejectPhoto('${photo.id}', '${photo.storage_path}')">Reject</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+async function loadPendingPhotos() {
+  const grid = document.getElementById('admin-pending-grid');
+  const empty = document.getElementById('admin-pending-empty');
+  const { data, error } = await getGalleryClient()
+    .from('photos')
+    .select('*')
+    .eq('approved', false)
+    .order('created_at', { ascending: false });
+  if (error || !data || !data.length) {
+    if (empty) empty.style.display = 'block';
+    if (grid) grid.innerHTML = '';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+  grid.innerHTML = data.map(adminPendingCard).join('');
+}
+
+function showAdminDashboard() {
+  document.getElementById('admin-login').style.display = 'none';
+  document.getElementById('admin-dashboard').style.display = 'block';
+  loadPendingPhotos();
+}
+
+function showAdminLogin() {
+  document.getElementById('admin-dashboard').style.display = 'none';
+  document.getElementById('admin-login').style.display = 'block';
+}
+
+async function initAdminPage() {
+  const { data } = await getGalleryClient().auth.getSession();
+  if (data && data.session) showAdminDashboard();
+  else showAdminLogin();
+}
+window.initAdminPage = initAdminPage;
+
+async function adminLogin() {
+  const email = document.getElementById('admin-email').value.trim();
+  const password = document.getElementById('admin-password').value;
+  const errorEl = document.getElementById('admin-login-error');
+  errorEl.style.display = 'none';
+  if (!email || !password) { showAdminError('Please enter your email and password.'); return; }
+  const { error } = await getGalleryClient().auth.signInWithPassword({ email, password });
+  if (error) { showAdminError('Invalid email or password.'); return; }
+  showAdminDashboard();
+}
+
+async function adminLogout() {
+  await getGalleryClient().auth.signOut();
+  showAdminLogin();
+}
+
+async function approvePhoto(id) {
+  const { error } = await getGalleryClient().from('photos').update({ approved: true }).eq('id', id);
+  if (error) { alert('Could not approve this photo. Please try again.'); return; }
+  const card = document.getElementById(`admin-card-${id}`);
+  if (card) card.remove();
+}
+
+async function rejectPhoto(id, storagePath) {
+  if (!confirm('Reject and permanently delete this photo?')) return;
+  const client = getGalleryClient();
+  const { error: storageError } = await client.storage.from(GALLERY_BUCKET).remove([storagePath]);
+  if (storageError) { alert('Could not delete the photo file. Please try again.'); return; }
+  const { error: dbError } = await client.from('photos').delete().eq('id', id);
+  if (dbError) { alert('Photo file deleted, but the record could not be removed. Please try again.'); return; }
+  const card = document.getElementById(`admin-card-${id}`);
+  if (card) card.remove();
+}
+
 function signUpEmail() {
   const val = document.getElementById('email-input').value.trim();
   if (!val) { alert('Please enter your email.'); return; }

@@ -4,18 +4,18 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="preload" as="font" type="font/woff2" href="fonts/playfair-display-latin.woff2?v=1" crossorigin>
-<title>Book a Consultation | Bhramhari</title>
-<meta name="description" content="Schedule a free consultation with Sarita Budithi for estate planning, insurance, or retirement planning services." />
-<link rel="canonical" href="https://bhramhari.com/booking.html" />
-
+<title>Admin — Photo Moderation</title>
+<meta name="description" content="Internal photo moderation dashboard." />
+<link rel="canonical" href="https://bhramhari.com/admin.html" />
+<meta name="robots" content="noindex,nofollow" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Book a Consultation | Bhramhari" />
-<meta property="og:description" content="Schedule a free consultation with Sarita Budithi for estate planning, insurance, or retirement planning services." />
-<meta property="og:url" content="https://bhramhari.com/booking.html" />
+<meta property="og:title" content="Admin — Photo Moderation" />
+<meta property="og:description" content="Internal photo moderation dashboard." />
+<meta property="og:url" content="https://bhramhari.com/admin.html" />
 <meta property="og:image" content="https://bhramhari.com/assets/BHRAMHARI_Logo.png" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Book a Consultation | Bhramhari" />
-<meta name="twitter:description" content="Schedule a free consultation with Sarita Budithi for estate planning, insurance, or retirement planning services." />
+<meta name="twitter:title" content="Admin — Photo Moderation" />
+<meta name="twitter:description" content="Internal photo moderation dashboard." />
 <meta name="twitter:image" content="https://bhramhari.com/assets/BHRAMHARI_Logo.png" />
 <style>
 @font-face { font-family: 'DM Sans'; font-style: normal; font-weight: 300 700; font-display: swap; src: url('fonts/dm-sans-latin.woff2?v=1') format('woff2'); }
@@ -60,40 +60,38 @@
     <a href="events.html" id="nav-events" class="">Upcoming Events</a>
     <a href="gallery.html" id="nav-gallery" class="">Gallery</a>
     <a href="contact.html" id="nav-contact" class="">Contact</a>
-    <a href="booking.html" class="nav-book active" id="nav-booking">Book Online</a>
+    <a href="booking.html" class="nav-book " id="nav-booking">Book Online</a>
   </div>
 </nav>
 
 
-  <div style="background:var(--navy);padding:80px 48px;text-align:center;position:relative;overflow:hidden;">
-    <div style="position:absolute;inset:0;opacity:0.04;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='80'%3E%3Cpolygon points='35,4 66,20 66,54 35,70 4,54 4,20' fill='none' stroke='%23ffffff' stroke-width='1.5'/%3E%3C/svg%3E&quot;);background-size:70px 80px;"></div>
-    <span class="chip chip-gold" style="position:relative;z-index:2;">Schedule a Session</span>
-    <h1 style="font-family:'Playfair Display',serif;font-size:50px;font-weight:900;color:#fff;margin-top:10px;position:relative;z-index:2;">Book <em style="color:var(--gold);">Online</em></h1>
-    <p style="color:rgba(255,255,255,0.65);font-size:18px;margin-top:14px;position:relative;z-index:2;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.7;">Choose your service, pick a time that works, and Sarita will take it from there.</p>
+  <div style="background:var(--navy);padding:60px 48px;">
+    <span class="chip chip-gold">Internal</span>
+    <h1 style="font-family:'Playfair Display',serif;font-size:38px;font-weight:900;color:#fff;margin-top:10px;">Photo <em style="color:var(--gold);">Moderation</em></h1>
   </div>
-  <section class="section">
-    <div class="booking-wrap">
-      <div class="booking-step">
-        <div class="booking-header">
-          <h3>Book a Consultation</h3>
-          <p>Select a service below and choose a time that works for you.</p>
-        </div>
-        <div class="booking-body">
-          <div class="svc-pills">
-            <div class="svc-pill selected" id="pill-insurance" onclick="switchCal('insurance')" data-cal-link="bhramhari/insurance-consultation" data-cal-config='{"layout":"month_view"}'>🛡️ Insurance Consultation</div>
-            <div class="svc-pill" id="pill-retirement" onclick="switchCal('retirement')" data-cal-link="bhramhari/retirement-planning" data-cal-config='{"layout":"month_view"}'>🌅 Retirement Planning</div>
-            <div class="svc-pill" id="pill-estate" onclick="switchCal('estate')" data-cal-link="bhramhari/estate-planning" data-cal-config='{"layout":"month_view"}'>🏛️ Estate Planning</div>
-            <div class="svc-pill" id="pill-health" onclick="switchCal('health')" data-cal-link="bhramhari/general-health-insurance" data-cal-config='{"layout":"month_view"}'>🩺 General Health Insurance</div>
-            <div class="svc-pill" id="pill-longterm" onclick="switchCal('longterm')" data-cal-link="bhramhari/long-term-care" data-cal-config='{"layout":"month_view"}'>🧓 Long-Term Care</div>
-            <div class="svc-pill" id="pill-disability" onclick="switchCal('disability')" data-cal-link="bhramhari/disability-coverage" data-cal-config='{"layout":"month_view"}'>♿ Disability Coverage</div>
-            <div class="svc-pill" id="pill-travel" onclick="switchCal('travel')" data-cal-link="bhramhari/travel-insurance" data-cal-config='{"layout":"month_view"}'>✈️ Travel Insurance</div>
-            <div class="svc-pill" id="pill-notary" onclick="switchCal('notary')" data-cal-link="bhramhari/notary-services" data-cal-config='{"layout":"month_view"}'>🖋️ Notary Services</div>
-            <div class="svc-pill" id="pill-mortgage" onclick="switchCal('mortgage')" data-cal-link="bhramhari/mortgage-protection" data-cal-config='{"layout":"month_view"}'>🏠 Mortgage Protection</div>
-          </div>
-        </div>
+
+  <div id="admin-app">
+    <section class="section" id="admin-login">
+      <div class="admin-login-card">
+        <h3 style="font-family:'Playfair Display',serif;font-size:24px;color:var(--navy);margin-bottom:18px;">Admin Log In</h3>
+        <div class="cf-fld full" style="margin-bottom:14px;"><label>Email</label><input type="email" id="admin-email" placeholder="you@email.com" /></div>
+        <div class="cf-fld full" style="margin-bottom:14px;"><label>Password</label><input type="password" id="admin-password" placeholder="Password" /></div>
+        <div class="calc-error" id="admin-login-error" style="display:none;"></div>
+        <button class="cf-submit" onclick="adminLogin()">Log In →</button>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <section class="section" id="admin-dashboard" style="display:none;">
+      <div style="display:flex;align-items:center;justify-content:space-between;max-width:1100px;margin:0 auto 24px;">
+        <h2 class="section-h" style="font-size:28px;">Pending Photos</h2>
+        <button class="btn-ghost" style="color:var(--navy);border-color:var(--navy);background:transparent;" onclick="adminLogout()">Log Out</button>
+      </div>
+      <div class="admin-pending-grid" id="admin-pending-grid"></div>
+      <p id="admin-pending-empty" style="text-align:center;color:var(--gray);margin-top:24px;display:none;">No photos pending review.</p>
+    </section>
+  </div>
+
+  <script src="gallery-config.js"></script>
 
 
 <!-- FOOTER -->

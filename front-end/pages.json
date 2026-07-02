@@ -40,5 +40,19 @@
     "content": "contact.html",
     "title": "Contact Us | Bhramhari",
     "description": "Get in touch with Bhramhari for estate planning, insurance, and retirement planning services in Aurora, IL. Call, email, or send a message today."
+  },
+  {
+    "slug": "gallery",
+    "navId": "gallery",
+    "content": "gallery.html",
+    "title": "Photo Gallery | Bhramhari",
+    "description": "Browse community event photos from Bhramhari and share your own — submissions are reviewed before appearing publicly."
+  },
+  {
+    "slug": "admin",
+    "content": "admin.html",
+    "title": "Admin — Photo Moderation",
+    "description": "Internal photo moderation dashboard.",
+    "robotsMeta": "<meta name=\"robots\" content=\"noindex,nofollow\" />"
   }
 ]
